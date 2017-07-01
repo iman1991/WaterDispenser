@@ -62,7 +62,7 @@ freeBattom = 23
 # Voltage = 24
 
 GET_INFO = b'g\n'
-
+SETTING = b'cs\n'
 NOT_ERROR = b'0\n'
 ERROR_ASCII = b'1\n'
 ERROR_SHORT = b'2\n'
@@ -81,10 +81,10 @@ stateList =["NO_WATER",
 
 containerList = ["TOO_LOW", "NOT_FULL", "FULL"]
 
-def read(com):
-    code = com.readline()
+
+def checkCode(code):
     if code == NOT_ERROR:
-        return com.readline()
+        return True
 
     elif code ==ERROR_ASCII:
         raise IOError("Неверный ASCII Символ")
@@ -99,9 +99,22 @@ def read(com):
         raise IOError(code)
 
 
+
+def read(com):
+    code = com.readline()
+    if checkCode(code):
+        return com.readline()
+
+
 def readinfo(com):
     com.write(GET_INFO)
     return read(com)
+
+
+def setting(com,_waterPrice, _containerMinVolume,_maxContainerVolume):
+    com.write(SETTING)
+
+
 
 
 def raw2list(raw):
