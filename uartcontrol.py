@@ -37,6 +37,7 @@ Voltage = 24
 
 GET_INFO = b'g\n'
 SETTING = 'cs'
+PAYMENT = 'm'
 PUTTING = b'cm'
 
 NOT_ERROR = b'0\n'
@@ -50,7 +51,7 @@ stateList = ["NO_WATER", "WASH_FILTER", "WAIT", "SETTING", "JUST_PAID", "WORK", 
 containerList = ["TOO_LOW", "NOT_FULL", "FULL"]
 
 
-class vodomat(object):
+class Vodomat(object):
 
     devInfo = {
         "idv": 1,
@@ -84,7 +85,16 @@ class vodomat(object):
 
     def __init__(self, port, baud):
         self.uart = serial.Serial(port, baud)
-        self.lock = False
+        self.locked = False
+
+
+    def lock(self):
+        while self.locked:
+            pass
+        self.locked
+
+    def unlock(self):
+        self.locked = False
 
     def checkCode(self, code, types="code"):
         if code == NOT_ERROR:
@@ -112,14 +122,11 @@ class vodomat(object):
 
 
     def readinfo(self):
-        while self.lock:
+        while self.locked:
             pass
-        self.lock = True
+        self.locked = True
         self.uart.write(GET_INFO)
         return self.read()
-
-
-
 
 
     def raw2list(self, raw):
@@ -154,24 +161,24 @@ class vodomat(object):
     def startUart(self):
         while True:
             raw = self.readinfo()
-            self.lock = False
+            self.locked = False
             self.raw2list(raw)
             time.sleep(1)
 
     def setting(self, _waterPrice, containerMinVolume,_maxContainerVolume):
         msg = "{}{},{},{}\n".format(SETTING, _waterPrice, containerMinVolume, _maxContainerVolume).encode("ascii")
-        while self.lock:
+        while self.locked:
             pass
-        self.lock = True
+        self.locked = True
         self.uart.write(msg)
         raw = self.uart.readline()
         self.checkCode(raw)
-        self.lock = False
+        self.locked = False
 
     def getPutting(self):
-        while self.lock:
+        while self.locked:
             pass
-        self.lock = True
+        self.locked = True
         self.uart.write(PUTTING)
         raw = self.uart.readline()
         code = self.checkCode(raw, code="int")
@@ -181,6 +188,14 @@ class vodomat(object):
             return code
         else:
             raise IOError(raw)
+
+    def payment(self,score):
+        self.lock()
+        msg = "%s%i\n" % (PAYMENT, score)
+        self.uart.write(msg.encode("ascii"))
+        raw = self.uart.readline()
+        if self.checkCode(raw):
+            return
 
 
 

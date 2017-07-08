@@ -9,39 +9,7 @@ import uartcontrol
 sock = socket.socket()
 
 
-
-
-
-
-# devInfo = {
-#     "idv": 1,
-#     "state": "NO_WATER",
-#     "input10Counter ": 0,
-#     "out10Counter": 0,
-#     "milLitlose": 0,
-#     "milLitWentOut": 0,
-#     "milLitContIn": 0,
-#     "waterPrice": 0,
-#     "containerMinVolume": 0,
-#     "contVolume": 0,
-#     "totalPaid": 0,
-#     "sessionPaid": 0,
-#     "leftFromPaid": 0,
-#     "container": "TOO_LOW",
-#     "currentContainerVolume": 0,
-#     "consumerPump": False,
-#     "mainPump": False,
-#     "magistralPressure": False,
-#     "mainValve": False,
-#     "filterValve": False,
-#     "washFilValve": False,
-#     "tumperMoney": False,
-#     "tumperDoor": False,
-#     "serviceButton": False,
-#     "freeBattom": False,
-#     "Voltage": 0
-# }
-
+dev = uartcontrol.Vodomat("COM4", 38400)
 
 
 def connect():
@@ -58,36 +26,49 @@ def createParser():
 
 
 def send(info, method="status"):
-
     d = {"method": method, "param": info}
     d = json.dumps(d)
     sock.send(d.encode("utf-8"))
 
 
 def seans(info):
-    connect()
-    print("Running")
-    send(info, method="connect")
-    while True:
-        data = sock.recv(2048).decode()
-        if not data:
-            raise IOError
-        response = json.loads(data)
+    data = sock.recv(2048).decode()
+    if not data:
+        raise IOError
+    print("response %s" % data)
+    response = json.loads(data)
+    try:
         method = response["method"]
         param = response["param"]
-        print("response %s" % data)
-        time.sleep(1)
-        if method == "GetWater":
-            if int(param["idv"]) == info["idv"]:
+    except json.JSONDecodeError as e:
+        method = "error"
+        param = {"types": "json", "msg": e.msg}
+    except KeyError as e:
+        method = "error"
+        param = {"types": "notKey", "msg": e.args}
+    time.sleep(1)
+    if method == "GetWater":
+        if int(param["idv"]) == info["idv"]:
+            if dev.devInfo["state"] == uartcontrol.stateList[uartcontrol.state]:
                 pass
-        elif method == "ToUpBalans":
-            if int(param["idv"]) == info["idv"]:
-                pass
+                # dev.payment(param["score"])
+            send(info)
+    elif method == "ToUpBalance":
+        if int(param["idv"]) == info["idv"]:
+            # w = dev.getPutting()
+            param["score"] = 10000
+            send(param, method="Answer")
+    elif method == "error":
+        send(param, method="error")
+    else:
         send(info)
 
 
-
 if __name__ == "__main__":
-
-    seans(uartcontrol.devInfo)
+    thread = threading.Thread(target=dev.startUart)
+    thread.start()
+    connect()
+    send(dev.devInfo, method="connect")
+    while True:
+        seans(dev.devInfo)
 
