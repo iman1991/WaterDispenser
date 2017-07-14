@@ -2,9 +2,6 @@ import serial
 import json
 import time
 
-
-
-
 ID = -1
 
 
@@ -33,12 +30,18 @@ tumperDoor = 21
 serviceButton = 22
 freeBattom = 23
 Voltage = 24
+billAccept = 25
 
 
 GET_INFO = b'g\n'
+ENABLE = b'cj\n'
+DISABLE = b'ci\n'
+PUTTING = b'cm\n'
+
 SETTING = 'cs'
 PAYMENT = 'm'
-PUTTING = b'cm'
+TEXTOUT = 'ct'
+FILLTERSET = 'cf'
 
 NOT_ERROR = b'0\n'
 ERROR_ASCII = b'-1\n'
@@ -49,6 +52,10 @@ ERROR_TEST = b'-4\n'
 
 stateList = ["NO_WATER", "WASH_FILTER", "WAIT", "SETTING", "JUST_PAID", "WORK", "SERVICE", "FREE", "NONE"]
 containerList = ["TOO_LOW", "NOT_FULL", "FULL"]
+# vodoList = ["input10Counter", "out10Counter", "milLitlose", "milLitWentOut", "milLitContIn", "waterPrice",
+#             "containerMinVolume", "maxContainerVolume", "totalPaid", "sessionPaid", "leftFromPaid", "state",
+#             "container", "currentContainerVolume", "consumerPump", "magistralPressure", "mainValve",
+#             "filterValve", "washFilValve", "tumperMoney", "tumperDoor", "serviceButton", "freeBattom", "Voltage"]
 
 
 class Vodomat(object):
@@ -67,6 +74,7 @@ class Vodomat(object):
         "totalPaid": 0,
         "sessionPaid": 0,
         "leftFromPaid": 0,
+        "state":"WAIT",
         "container": "TOO_LOW",
         "currentContainerVolume": 0,
         "consumerPump": False,
@@ -79,7 +87,8 @@ class Vodomat(object):
         "tumperDoor": False,
         "serviceButton": False,
         "freeBattom": False,
-        "Voltage": 0
+        "Voltage": 0,
+        "billAccept": False
     }
 
 
@@ -89,12 +98,23 @@ class Vodomat(object):
 
 
     def lock(self):
-        while self.locked:
-            pass
-        self.locked
+        # while self.locked:
+        #     pass
+        self.locked = True
+
 
     def unlock(self):
         self.locked = False
+
+    def read(self):
+        return self.uart.readline()
+
+
+    def write(self, data):
+        if type(data) == str:
+            data = data.encode("ascii")
+        return self.uart.write(data)
+
 
     def checkCode(self, code, types="code"):
         if code == NOT_ERROR:
@@ -114,19 +134,15 @@ class Vodomat(object):
                 return int(code)
 
 
-
-    def read(self):
-        code = self.uart.readline()
-        if self.checkCode(code):
-            return self.uart.readline()
-
-
     def readinfo(self):
-        while self.locked:
-            pass
-        self.locked = True
-        self.uart.write(GET_INFO)
-        return self.read()
+        print("read info")
+        self.write(GET_INFO)
+        if self.checkCode(self.read()):
+
+            raw = self.read()
+            print(raw)
+            self.raw2list(raw)
+        return raw
 
 
     def raw2list(self, raw):
@@ -156,47 +172,67 @@ class Vodomat(object):
         self.devInfo["serviceButton"] = date[serviceButton] == 1
         self.devInfo["freeBattom"] = date[freeBattom] == 1
         self.devInfo["Voltage"] = date[Voltage]
+        self.devInfo["billAccept"] = date[billAccept] == 1
 
 
     def startUart(self):
+        print("start UART")
         while True:
             raw = self.readinfo()
-            self.locked = False
-            self.raw2list(raw)
+            print(self.devInfo)
             time.sleep(1)
+
 
     def setting(self, _waterPrice, containerMinVolume,_maxContainerVolume):
         msg = "{}{},{},{}\n".format(SETTING, _waterPrice, containerMinVolume, _maxContainerVolume).encode("ascii")
-        while self.locked:
-            pass
-        self.locked = True
-        self.uart.write(msg)
-        raw = self.uart.readline()
+        self.write(msg)
+        raw = self.read()
+
         self.checkCode(raw)
         self.locked = False
 
+
+
+
     def getPutting(self):
-        while self.locked:
-            pass
-        self.locked = True
-        self.uart.write(PUTTING)
-        raw = self.uart.readline()
-        code = self.checkCode(raw, code="int")
-        if code:
+        self.write(PUTTING)
+        raw = self.read()
+        print(raw)
+        code = self.checkCode(raw, types="int")
+        if code == True:
             return 0
         elif code > 0:
             return code
         else:
             raise IOError(raw)
 
+
     def payment(self,score):
         self.lock()
         msg = "%s%i\n" % (PAYMENT, score)
-        self.uart.write(msg.encode("ascii"))
-        raw = self.uart.readline()
+        print("str {}bytes {}".format(msg, msg.encode("ascii")))
+        self.write(msg.encode("ascii"))
+        raw = self.read()
         if self.checkCode(raw):
-            return
+            return True
 
 
+    def textOUT(self, text, line):
+        self.lock()
+        msg = "%s%s,%i\n" % (PAYMENT, text, line)
+        self.write(msg.encode("ascii"))
+        self.write(msg.encode("ascii"))
+        raw = self.read()
+        self.unlock()
+        if self.checkCode(raw):
+            return True
 
 
+    def enablePayment(self):
+        self.write(ENABLE)
+        return self.checkCode(self.read())
+
+
+    def disablePayment(self):
+        self.write(DISABLE)
+        return self.checkCode(self.read())

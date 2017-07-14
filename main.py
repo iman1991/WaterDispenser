@@ -2,16 +2,25 @@ import threading
 import socket
 import json
 import time
+import argparse
 import uartcontrol
 
 
-
 sock = socket.socket()
-dev = uartcontrol.Vodomat("/dev/ttyAMA0", 38400)
+dev = uartcontrol.Vodomat("COM4", 9600)
 
 
 def connect():
-    sock.connect(("192.168.10.32", 8080))
+    sock.connect(("192.168.10.32", 9090))
+
+
+def createParser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-b", "--baud", nargs="?", type=int, default=38400,
+                        help="скорость передачи данных, по умолчанию равно 38400")
+    parser.add_argument("-p", "--port", nargs="?", default="/dev/ttyUSB0",
+                        help="порт по которому опрашивается устройство")
+    return parser
 
 
 def send(info, method="status"):
@@ -38,14 +47,12 @@ def seans(info):
     time.sleep(1)
     if method == "GetWater":
         if int(param["idv"]) == info["idv"]:
-            if dev.devInfo["state"] == uartcontrol.stateList[uartcontrol.state]:
-                pass
-                # dev.payment(param["score"])
+            if dev.devInfo["state"] == "WAIT":
+                dev.payment(param["score"])
             send(info)
     elif method == "ToUpBalance":
         if int(param["idv"]) == info["idv"]:
-            # w = dev.getPutting()
-            param["score"] = 10000
+            param["score"] = dev.getPutting()
             send(param, method="Answer")
     elif method == "error":
         send(param, method="error")
@@ -54,11 +61,19 @@ def seans(info):
 
 
 if __name__ == "__main__":
-    thread = threading.Thread(target=dev.startUart)
-    thread.start()
-
-    connect()
-    send(dev.devInfo, method="connect")
+    # thread = threading.Thread(target=dev.startUart)
+    # thread.start()
+    time.sleep(1)
     while True:
-        seans(dev.devInfo)
-
+        c = input("0 - payment\n1 - get money\n2 - enable\n3 - disable\n -->")
+        if c == "0":
+            g = int(input("score \n"))
+            print(dev.payment(g))
+        elif c == "1":
+            print(dev.getPutting())
+        elif c == "2":
+            print(dev.enablePayment())
+        elif c == "3":
+            print(dev.disablePayment())
+        elif c == "4":
+            print(dev.readinfo())
