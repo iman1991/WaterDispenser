@@ -2,10 +2,10 @@ import threading
 import socket
 import json
 import time
-import argparse
 import uartcontrol
-import argparse
+import os
 
+print(os.name)
 
 sock = socket.socket()
 dev = uartcontrol.Vodomat()
@@ -13,15 +13,6 @@ dev = uartcontrol.Vodomat()
 
 def connect():
     sock.connect(("192.168.10.32", 8080))
-
-
-def createParser():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-b", "--baud", nargs="?", type=int, default=38400,
-                        help="скорость передачи данных, по умолчанию равно 38400")
-    parser.add_argument("-p", "--port", nargs="?", default="/dev/ttyUSB0",
-                        help="порт по которому опрашивается устройство")
-    return parser
 
 
 def send(info, method="status"):
