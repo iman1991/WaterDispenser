@@ -3,12 +3,11 @@ import socket
 import json
 import time
 import uartcontrol
-import os
 
-print(os.name)
+
 
 sock = socket.socket()
-dev = uartcontrol.Vodomat()
+dev = uartcontrol.Vodomat("/dev/ttyAMA0", 38400)
 
 
 def connect():
