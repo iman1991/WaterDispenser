@@ -4,12 +4,11 @@ import json
 import time
 import argparse
 import uartcontrol
+import argparse
 
 
 sock = socket.socket()
-
-
-dev = uartcontrol.Vodomat("COM4", 38400)
+dev = uartcontrol.Vodomat()
 
 
 def connect():
