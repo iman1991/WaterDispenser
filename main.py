@@ -2,7 +2,6 @@ import threading
 import socket
 import json
 import time
-import argparse
 import uartcontrol
 
 
@@ -11,16 +10,7 @@ dev = uartcontrol.Vodomat("/dev/ttyAMA0", 38400)
 
 
 def connect():
-    sock.connect(("192.168.10.32", 9090))
-
-
-def createParser():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-b", "--baud", nargs="?", type=int, default=38400,
-                        help="скорость передачи данных, по умолчанию равно 38400")
-    parser.add_argument("-p", "--port", nargs="?", default="/dev/ttyUSB0",
-                        help="порт по которому опрашивается устройство")
-    return parser
+    sock.connect(("194.67.217.180", 9090))
 
 
 def send(info, method="status"):
@@ -63,17 +53,7 @@ def seans(info):
 if __name__ == "__main__":
     thread = threading.Thread(target=dev.startUart)
     thread.start()
-    time.sleep(1)
+    connect()
     while True:
-        c = input("0 - payment\n1 - get money\n2 - enable\n3 - disable\n -->")
-        if c == "0":
-            g = int(input("score \n"))
-            print(dev.payment(g))
-        elif c == "1":
-            print(dev.getPutting())
-        elif c == "2":
-            print(dev.enablePayment())
-        elif c == "3":
-            print(dev.disablePayment())
-        elif c == "4":
-            print(dev.readinfo())
+        seans(dev.devInfo)
+
