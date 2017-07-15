@@ -77,5 +77,3 @@ if __name__ == "__main__":
             print(dev.disablePayment())
         elif c == "4":
             print(dev.readinfo())
-        elif c == 'q':
-            exit()

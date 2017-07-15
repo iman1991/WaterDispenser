@@ -135,14 +135,11 @@ class Vodomat(object):
 
 
     def readinfo(self):
-        print("read info")
         self.write(GET_INFO)
         if self.checkCode(self.read()):
-
             raw = self.read()
-            print(raw)
             self.raw2list(raw)
-        return raw
+
 
 
     def raw2list(self, raw):
@@ -178,8 +175,7 @@ class Vodomat(object):
     def startUart(self):
         print("start UART")
         while True:
-            raw = self.readinfo()
-            print(self.devInfo)
+            self.readinfo()
             time.sleep(1)
 
 
@@ -210,7 +206,6 @@ class Vodomat(object):
     def payment(self,score):
         self.lock()
         msg = "%s%i\n" % (PAYMENT, score)
-        print("str {}bytes {}".format(msg, msg.encode("ascii")))
         self.write(msg.encode("ascii"))
         raw = self.read()
         if self.checkCode(raw):
