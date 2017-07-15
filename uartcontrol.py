@@ -220,7 +220,7 @@ class Vodomat(object):
 
     def enablePayment(self):
         self.write(ENABLE)
-        result  = self.checkCode(self.read())
+        result = self.checkCode(self.read())
         self.unlock()
         return result
 
