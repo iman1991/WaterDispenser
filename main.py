@@ -24,7 +24,6 @@ def seans(info):
     if not data:
         raise IOError
     response = json.loads(data)
-    print(response)
     try:
         method = response["method"]
         param = response["param"]
