@@ -113,6 +113,7 @@ class Vodomat(object):
         self.lock()
         if type(data) == str:
             data = data.encode("ascii")
+        print(data)
         return self.uart.write(data)
 
 
