@@ -99,7 +99,7 @@ class Vodomat(object):
 
     def lock(self):
         while self.locked:
-            pass
+            print("locker")
         self.locked = True
 
 
