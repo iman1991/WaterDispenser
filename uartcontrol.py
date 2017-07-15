@@ -98,8 +98,8 @@ class Vodomat(object):
 
 
     def lock(self):
-        # while self.locked:
-        #     pass
+        while self.locked:
+            pass
         self.locked = True
 
 
@@ -107,10 +107,13 @@ class Vodomat(object):
         self.locked = False
 
     def read(self):
-        return self.uart.readline()
+        data = self.uart.readline()
+        self.unlock()
+        return data
 
 
     def write(self, data):
+        self.lock()
         if type(data) == str:
             data = data.encode("ascii")
         return self.uart.write(data)
@@ -135,11 +138,12 @@ class Vodomat(object):
 
 
     def readinfo(self):
+
         self.write(GET_INFO)
         if self.checkCode(self.read()):
             raw = self.read()
             self.raw2list(raw)
-
+        self.unlock()
 
 
     def raw2list(self, raw):
@@ -183,9 +187,8 @@ class Vodomat(object):
         msg = "{}{},{},{}\n".format(SETTING, _waterPrice, containerMinVolume, _maxContainerVolume).encode("ascii")
         self.write(msg)
         raw = self.read()
-
         self.checkCode(raw)
-        self.locked = False
+
 
 
 
@@ -193,7 +196,6 @@ class Vodomat(object):
     def getPutting(self):
         self.write(PUTTING)
         raw = self.read()
-        print(raw)
         code = self.checkCode(raw, types="int")
         if code == True:
             return 0
@@ -201,10 +203,10 @@ class Vodomat(object):
             return code
         else:
             raise IOError(raw)
+        self.unlock
 
 
     def payment(self,score):
-        self.lock()
         msg = "%s%i\n" % (PAYMENT, score)
         self.write(msg.encode("ascii"))
         raw = self.read()
@@ -213,7 +215,6 @@ class Vodomat(object):
 
 
     def textOUT(self, text, line):
-        self.lock()
         msg = "%s%s,%i\n" % (PAYMENT, text, line)
         self.write(msg.encode("ascii"))
         raw = self.read()
