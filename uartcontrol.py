@@ -197,7 +197,7 @@ class Vodomat(object):
             return code
         else:
             raise IOError(raw)
-        self.unlock
+
 
 
     def payment(self,score):
@@ -227,6 +227,6 @@ class Vodomat(object):
 
     def disablePayment(self):
         self.write(DISABLE)
-        result  = self.checkCode(self.read())
+        result = self.checkCode(self.read())
         self.unlock()
         return result
