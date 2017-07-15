@@ -55,7 +55,7 @@ if __name__ == "__main__":
     thread = threading.Thread(target=dev.startUart)
     thread.start()
     connect()
-    send(dev.devInfo)
+    send(dev.devInfo, method="connect")
     while True:
         seans(dev.devInfo)
 
