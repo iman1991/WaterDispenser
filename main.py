@@ -7,7 +7,7 @@ import uartcontrol
 
 
 sock = socket.socket()
-dev = uartcontrol.Vodomat("/dev/ttyUSB0", 38400)
+dev = uartcontrol.Vodomat("/dev/ttyAMA0", 38400)
 
 def connect():
     sock.connect(("192.168.10.32", 9090))
