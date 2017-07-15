@@ -23,7 +23,6 @@ def seans(info):
     data = sock.recv(2048).decode()
     if not data:
         raise IOError
-    print("response %s" % data)
     response = json.loads(data)
     try:
         method = response["method"]
