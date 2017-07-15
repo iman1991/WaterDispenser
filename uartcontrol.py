@@ -105,7 +105,6 @@ class Vodomat(object):
     def read(self):
         data = self.uart.readline()
         self.unlock()
-        print(data)
         return data
 
 
@@ -113,7 +112,6 @@ class Vodomat(object):
         self.lock()
         if type(data) == str:
             data = data.encode("ascii")
-        print(data)
         return self.uart.write(data)
 
 
