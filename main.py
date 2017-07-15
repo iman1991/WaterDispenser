@@ -7,7 +7,7 @@ import uartcontrol
 
 
 sock = socket.socket()
-dev = uartcontrol.Vodomat("/dev/ttyAMA0", 38400)
+dev = uartcontrol.Vodomat("/dev/ttyUSB0", 38400)
 
 def connect():
     sock.connect(("192.168.10.32", 9090))
@@ -60,8 +60,8 @@ def seans(info):
 
 
 if __name__ == "__main__":
-    # thread = threading.Thread(target=dev.startUart)
-    # thread.start()
+    thread = threading.Thread(target=dev.startUart)
+    thread.start()
     time.sleep(1)
     while True:
         c = input("0 - payment\n1 - get money\n2 - enable\n3 - disable\n -->")
