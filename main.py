@@ -44,6 +44,7 @@ def seans(info):
     elif method == "ToUpBalance":
         if int(param["idv"]) == info["idv"]:
             param["score"] += dev.getPutting()
+            print(param["score"])
             send(param, method="AnswerUP")
     elif method == "error":
         send(param, method="error")
