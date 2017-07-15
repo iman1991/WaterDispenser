@@ -103,9 +103,7 @@ class Vodomat(object):
 
 
     def read(self):
-        data = self.uart.readline()
-        self.unlock()
-        return data
+        return self.uart.readline()
 
 
     def write(self, data):
@@ -128,18 +126,9 @@ class Vodomat(object):
             return False
         else:
             if types == "code":
-                raise IOError(code)
+                raise TypeError(code)
             elif types == "int":
                 return int(code)
-
-
-    def readinfo(self):
-
-        self.write(GET_INFO)
-        if self.checkCode(self.read()):
-            raw = self.read()
-            self.raw2list(raw)
-        self.unlock()
 
 
     def raw2list(self, raw):
@@ -181,17 +170,27 @@ class Vodomat(object):
             time.sleep(1)
 
 
+    def readinfo(self):
+        self.write(GET_INFO)
+        if self.checkCode(self.read()):
+            raw = self.read()
+            self.raw2list(raw)
+        self.unlock()
+
+
     def setting(self, _waterPrice, containerMinVolume,_maxContainerVolume):
         msg = "{}{},{},{}\n".format(SETTING, _waterPrice, containerMinVolume, _maxContainerVolume).encode("ascii")
         self.write(msg)
         raw = self.read()
         self.checkCode(raw)
+        self.unlock()
 
 
     def getPutting(self):
         self.write(PUTTING)
         raw = self.read()
         code = self.checkCode(raw, types="int")
+        self.unlock()
         if code == True:
             return 0
         elif code > 0:
@@ -204,7 +203,9 @@ class Vodomat(object):
     def payment(self,score):
         msg = "%s%i\n" % (PAYMENT, score)
         self.write(msg.encode("ascii"))
-        if self.checkCode(self.read()):
+        raw = self.read()
+        self.unlock()
+        if self.checkCode(raw):
             return True
 
 
@@ -219,9 +220,13 @@ class Vodomat(object):
 
     def enablePayment(self):
         self.write(ENABLE)
-        return self.checkCode(self.read())
+        result  = self.checkCode(self.read())
+        self.unlock()
+        return result
 
 
     def disablePayment(self):
         self.write(DISABLE)
-        return self.checkCode(self.read())
+        result  = self.checkCode(self.read())
+        self.unlock()
+        return result
