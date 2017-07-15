@@ -221,7 +221,6 @@ class Vodomat(object):
         self.lock()
         msg = "%s%s,%i\n" % (PAYMENT, text, line)
         self.write(msg.encode("ascii"))
-        self.write(msg.encode("ascii"))
         raw = self.read()
         self.unlock()
         if self.checkCode(raw):
