@@ -52,11 +52,6 @@ ERROR_TEST = b'-4\n'
 
 stateList = ["NO_WATER", "WASH_FILTER", "WAIT", "SETTING", "JUST_PAID", "WORK", "SERVICE", "FREE", "NONE"]
 containerList = ["TOO_LOW", "NOT_FULL", "FULL"]
-# vodoList = ["input10Counter", "out10Counter", "milLitlose", "milLitWentOut", "milLitContIn", "waterPrice",
-#             "containerMinVolume", "maxContainerVolume", "totalPaid", "sessionPaid", "leftFromPaid", "state",
-#             "container", "currentContainerVolume", "consumerPump", "magistralPressure", "mainValve",
-#             "filterValve", "washFilValve", "tumperMoney", "tumperDoor", "serviceButton", "freeBattom", "Voltage"]
-
 
 class Vodomat(object):
     devInfo = {
@@ -110,6 +105,7 @@ class Vodomat(object):
     def read(self):
         data = self.uart.readline()
         self.unlock()
+        print(data)
         return data
 
 
@@ -209,8 +205,7 @@ class Vodomat(object):
     def payment(self,score):
         msg = "%s%i\n" % (PAYMENT, score)
         self.write(msg.encode("ascii"))
-        raw = self.read()
-        if self.checkCode(raw):
+        if self.checkCode(self.read()):
             return True
 
 
