@@ -97,8 +97,9 @@ class Vodomat(object):
 
 
     def lock(self):
-        if self.locked:
-            time.sleep(0.2)
+        while True:
+            if not self.locked:
+                break
         self.locked = True
 
 
