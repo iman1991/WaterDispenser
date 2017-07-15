@@ -59,7 +59,6 @@ containerList = ["TOO_LOW", "NOT_FULL", "FULL"]
 
 
 class Vodomat(object):
-
     devInfo = {
         "idv": 1,
         "state": "NO_WATER",
@@ -105,6 +104,7 @@ class Vodomat(object):
 
     def unlock(self):
         self.locked = False
+
 
     def read(self):
         data = self.uart.readline()
@@ -188,9 +188,6 @@ class Vodomat(object):
         self.write(msg)
         raw = self.read()
         self.checkCode(raw)
-
-
-
 
 
     def getPutting(self):
