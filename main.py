@@ -58,4 +58,5 @@ if __name__ == "__main__":
     send(dev.devInfo, method="connect")
     while True:
         seans(dev.devInfo)
+        print("locked", dev.locked)
 
