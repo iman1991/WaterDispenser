@@ -149,6 +149,8 @@ class Vodomat(object):
 
     def raw2list(self, raw):
         date = json.loads(raw.decode())
+        if type(date) != list
+            return
         self.devInfo["input10Counter"] = date[input10Counter]
         self.devInfo["out10Counter"] = date[out10Counter]
         self.devInfo["milLitlose"] = date[milLitlose]
