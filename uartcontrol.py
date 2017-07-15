@@ -98,7 +98,7 @@ class Vodomat(object):
 
 
     def lock(self):
-        if self.lock():
+        if self.locked:
             time.sleep(0.2)
         self.locked = True
 
