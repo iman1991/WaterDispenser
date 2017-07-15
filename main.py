@@ -38,6 +38,7 @@ def seans(info):
     if method == "GetWater":
         if int(param["idv"]) == info["idv"]:
             if dev.devInfo["state"] == "WAIT":
+                # AnswerPay
                 dev.payment(param["score"])
             send(info)
     elif method == "ToUpBalance":
