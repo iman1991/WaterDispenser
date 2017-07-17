@@ -20,6 +20,7 @@ def connect():
 def send(info, method="status"):
     d = {"method": method, "param": info}
     d = json.dumps(d)
+    print(d)
     sock.send(d.encode("utf-8"))
 
 
