@@ -47,12 +47,11 @@ def seans(info):
         if int(param["idv"]) == info["idv"]:
             if dev.devInfo["state"] == "WAIT":
                 dev.payment(param["score"])
-            send(info)
+        send(info)
     elif method == "ToUpBalance":
         if int(param["idv"]) == info["idv"]:
             param["score"] += dev.getPutting()
-            print(param["score"])
-            send(param, method="AnswerUP")
+        send(param, method="AnswerUP")
     elif method == "error":
         send(param, method="error")
     else:
