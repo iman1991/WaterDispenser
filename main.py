@@ -12,6 +12,7 @@ sock = socket.socket()
 dev = uartcontrol.Vodomat("/dev/ttyAMA0", 38400)
 
 
+
 def connect():
     sock.connect(("194.67.217.180", 9090))
 
@@ -26,8 +27,9 @@ def seans(info):
     data = sock.recv(2048).decode()
     if not data:
         raise IOError
-    response = json.loads(data)
+
     try:
+        response = json.loads(data)
         method = response["method"]
         param = response["param"]
     except json.JSONDecodeError as e:
@@ -36,6 +38,11 @@ def seans(info):
     except KeyError as e:
         method = "error"
         param = {"types": "notKey", "msg": e.args}
+    except Exception as e:
+        method = "error"
+        param = {"types": "error fotall", "msg": e.args}
+
+
     time.sleep(1)
     if method == "GetWater":
         if int(param["idv"]) == info["idv"]:
