@@ -29,8 +29,10 @@ def seans(info):
         raise IOError
     try:
         response = json.loads(data)
+        print(response)
         method = response["method"]
         param = response["param"]
+
     except ValueError as e:
         method = "error"
         param = {"types": "json", "msg": e.args}
