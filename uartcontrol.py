@@ -1,14 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 import serial
 import json
 import time
 
 
 ID = -1
-
-
 input10Counter = 0
 out10Counter = 1
 milLitlose = 2
