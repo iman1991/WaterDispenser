@@ -38,6 +38,7 @@ def seans(info):
 
     except ValueError as e:
         method = "error"
+        print(data)
         param = {"types": "json", "msg": e.args}
     except KeyError as e:
         method = "error"
