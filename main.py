@@ -20,7 +20,8 @@ def connect():
 def send(info, method="status"):
     d = {"method": method, "param": info}
     d = json.dumps(d)
-    print(d)
+    if method != "status":
+        print(d)
     sock.send(d.encode("utf-8"))
 
 
@@ -30,8 +31,9 @@ def seans(info):
         raise IOError
     try:
         response = json.loads(data)
-        print(response)
         method = response["method"]
+        if method != "got":
+            print(response)
         param = response["param"]
 
     except ValueError as e:
