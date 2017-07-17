@@ -110,7 +110,6 @@ class Vodomat(object):
 
 
     def write(self, data):
-        print(self.locked)
         self.lock()
         try:
             if type(data) == str:
@@ -179,6 +178,7 @@ class Vodomat(object):
 
 
     def readinfo(self):
+        print("Command readinfo, the lock %s" % self.locked)
         self.write(GET_INFO)
         if self.checkCode(self.read()):
             raw = self.read()
@@ -195,6 +195,7 @@ class Vodomat(object):
 
 
     def getPutting(self):
+        print("Command getPutting, the lock %s" % self.locked)
         self.write(PUTTING)
         raw = self.read()
         code = self.checkCode(raw, types="int")
@@ -209,6 +210,7 @@ class Vodomat(object):
 
 
     def payment(self,score):
+        print("Command playment, the lock %s" % self.locked)
         msg = "%s%i\n" % (PAYMENT, score)
         self.write(msg.encode("ascii"))
         raw = self.read()
