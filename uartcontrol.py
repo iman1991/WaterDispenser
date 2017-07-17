@@ -114,10 +114,13 @@ class Vodomat(object):
     def write(self, data):
         print(self.locked)
         self.lock()
-        if type(data) == str:
-            data = data.encode("ascii")
-        print("write {}".format(data))
-        return self.uart.write(data)
+        try:
+            if type(data) == str:
+                data = data.encode("ascii")
+            print("write {}".format(data))
+            self.uart.write(data)
+        except:
+            pass
 
 
     def checkCode(self, code, types="code"):
