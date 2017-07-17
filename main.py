@@ -27,14 +27,13 @@ def seans(info):
     data = sock.recv(2048).decode()
     if not data:
         raise IOError
-
     try:
         response = json.loads(data)
         method = response["method"]
         param = response["param"]
     except json.JSONDecodeError as e:
         method = "error"
-        param = {"types": "json", "msg": e.msg}
+        param = {"types": "json", "msg": e.args}
     except KeyError as e:
         method = "error"
         param = {"types": "notKey", "msg": e.args}
