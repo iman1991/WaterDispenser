@@ -31,7 +31,7 @@ def seans(info):
         response = json.loads(data)
         method = response["method"]
         param = response["param"]
-    except json.JSONDecodeError as e:
+    except ValueError as e:
         method = "error"
         param = {"types": "json", "msg": e.args}
     except KeyError as e:
