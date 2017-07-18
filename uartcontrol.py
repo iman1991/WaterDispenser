@@ -122,19 +122,12 @@ class Vodomat(object):
 
 
     def checkCode(self, code, types="code"):
+
         if code == NOT_ERROR:
             return True
-        elif code ==ERROR_ASCII:
-            raise IOError("Неверный ASCII Символ")
-        elif code ==ERROR_SHORT:
-            raise IOError("Слишкм короткая строка")
-        elif code ==ERROR_LONG:
-            raise IOError("Слишкм длинная строка")
-        elif code == ERROR_TEST:
-            return False
         else:
             if types == "code":
-                raise TypeError(code)
+                return False
             elif types == "int":
                 return int(code)
 
@@ -206,7 +199,7 @@ class Vodomat(object):
         elif code > 0:
             return code
         else:
-            raise IOError(raw)
+            return False
 
 
 
