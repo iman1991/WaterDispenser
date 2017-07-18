@@ -106,7 +106,7 @@ class Vodomat(object):
 
     def read(self):
         data = self.uart.readline()
-        print("read {}".format(data))
+        # print("read {}".format(data))
         return data
 
 
@@ -115,7 +115,7 @@ class Vodomat(object):
         try:
             if type(data) == str:
                 data = data.encode("ascii")
-            print("write {}".format(data))
+            # print("write {}".format(data))
             self.uart.write(data)
         except:
             pass
@@ -140,7 +140,6 @@ class Vodomat(object):
 
 
     def raw2list(self, raw):
-        print(raw)
         date = json.loads(raw.decode())
         if type(date) != list:
             return
@@ -180,7 +179,7 @@ class Vodomat(object):
 
 
     def readinfo(self):
-        print("Command readinfo, the lock %s" % self.locked)
+        # print("Command readinfo, the lock %s" % self.locked)
         self.write(GET_INFO)
         if self.checkCode(self.read()):
             raw = self.read()
