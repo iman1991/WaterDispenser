@@ -30,7 +30,7 @@ def send(info, method="status"):
 def seans(info):
     data = sock.recv(2048).decode()
     if not data:
-        raise IOError
+        return
     try:
         response = json.loads(data)
         method = response["method"]
