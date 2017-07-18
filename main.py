@@ -14,7 +14,8 @@ dev = uartcontrol.Vodomat("/dev/ttyAMA0", 38400)
 
 
 def connect():
-    sock.connect(("194.67.217.180", 9090))
+    # sock.connect(("194.67.217.180", 9090))
+    sock.connect(("192.168.10.30", 9090))
 
 
 def send(info, method="status"):
