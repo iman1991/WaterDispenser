@@ -140,6 +140,7 @@ class Vodomat(object):
 
 
     def raw2list(self, raw):
+        print(raw)
         date = json.loads(raw.decode())
         if type(date) != list:
             return

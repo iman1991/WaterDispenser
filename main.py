@@ -58,8 +58,9 @@ def seans(info):
         send(info)
     elif method == "GetWaterStop":
         # if int(param["idv"]) == info["idv"]:
-        #     param["score"] += dev.getPutting()
+        #     param["score"] = dev.getPutting()
         param["score"] = 100
+
         send(param, method="AnswerUP")
     elif method == "error":
         send(param, method="error")
