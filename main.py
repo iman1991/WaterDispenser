@@ -51,14 +51,13 @@ def seans(info):
 
     time.sleep(1)
     if method == "Activate":
-        # if int(param["idv"]) == info["idv"]:
-        #     if dev.devInfo["state"] == "WAIT":
-        #         dev.payment(param["score"])
+        if int(param["idv"]) == info["idv"]:
+            if dev.devInfo["state"] == "WAIT":
+                dev.payment(param["score"])
         send(info)
     elif method == "GetWaterStop":
-        # if int(param["idv"]) == info["idv"]:
-        #     param["score"] = dev.getPutting()
-        param["score"] = 100
+        if int(param["idv"]) == info["idv"]:
+            param["score"] = dev.getPutting()
         param["status"] = dev.devInfo
         send(param, method="AnswerUP")
     elif method == "error":
