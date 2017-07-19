@@ -31,11 +31,10 @@ def startAgent():
         for key in keys:
             try:
                 request["data"].append({"host": host,
-                                "key": key,
-                                "value": dev.devInfo[key],
-                                "clock": clock
-                                })
-
+                                        "key": key,
+                                        "value": dev.devInfo[key],
+                                        "clock": clock
+                                        })
             except:
                 pass
         raw = zbx.get_data_to_send(json.dumps(request))
