@@ -6,6 +6,7 @@ import socket
 import json
 import time
 from uartcontrol import dev
+import agent
 
 sock = socket.socket()
 
@@ -75,6 +76,8 @@ if __name__ == "__main__":
     else:
         thread = threading.Thread(target=dev.startUart)
         thread.start()
+        zabagent = threading.Thread(target=agent.startAgent)
+        zabagent.start()
         send(dev.devInfo, method="connect")
         while True:
             seans(dev.devInfo)
