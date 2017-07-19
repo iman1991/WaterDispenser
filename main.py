@@ -5,12 +5,9 @@ import threading
 import socket
 import json
 import time
-import uartcontrol
-
+from uartcontrol import dev
 
 sock = socket.socket()
-dev = uartcontrol.Vodomat("/dev/ttyAMA0", 38400)
-
 
 
 def connect():
@@ -18,6 +15,7 @@ def connect():
         sock.connect(("194.67.217.180", 8080))
     except:
         sock.connect(("194.67.217.180", 9090))
+
 
 def send(info, method="status"):
     d = {"method": method, "param": info}

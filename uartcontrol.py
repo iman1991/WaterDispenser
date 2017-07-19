@@ -57,7 +57,6 @@ containerList = ["TOO_LOW", "NOT_FULL", "FULL"]
 class Vodomat(object):
     devInfo = {
         "idv": 1,
-        "state": "NO_WATER",
         "input10Counter ": 0,
         "out10Counter": 0,
         "milLitlose": 0,
@@ -65,25 +64,29 @@ class Vodomat(object):
         "milLitContIn": 0,
         "waterPrice": 0,
         "containerMinVolume": 0,
+        "maxContainerVolume": 0,
         "contVolume": 0,
         "totalPaid": 0,
         "sessionPaid": 0,
         "leftFromPaid": 0,
-        "state":"WAIT",
+        "State": "WAIT",
         "container": "TOO_LOW",
         "currentContainerVolume": 0,
-        "consumerPump": False,
-        "mainPump": False,
-        "magistralPressure": False,
-        "mainValve": False,
-        "filterValve": False,
-        "washFilValve": False,
-        "tumperMoney": False,
-        "tumperDoor": False,
-        "serviceButton": False,
-        "freeBattom": False,
+        "consumerPump": 0,
+        "mainPump": 0,
+        "magistralPressure": 0,
+        "mainValve": 0,
+        "filterValve": 0,
+        "washFilValve": 0,
+        "tumperMoney": 0,
+        "tumperDoor": 0,
+        "serviceButton": 0,
+        "freeButtom": 0,
         "Voltage": 0,
-        "billAccept": False
+        "billAccept": 0,
+        "containerGraph": 0,
+        "stateGraph": 0
+
     }
 
 
@@ -148,20 +151,22 @@ class Vodomat(object):
         self.devInfo["sessionPaid"] = date[sessionPaid]
         self.devInfo["leftFromPaid"] = date[leftFromPaid]
         self.devInfo["state"] = stateList[date[state]]
+        self.devInfo["stateGraph"] = date[state]
         self.devInfo["container"] = containerList[date[container]]
+        self.devInfo["containerGraph"] = date[container]
         self.devInfo["currentContainerVolume"] = date[currentContainerVolume]
-        self.devInfo["consumerPump"] = date[consumerPump] == 1
-        self.devInfo["mainPump"] = date[mainPump] == 1
-        self.devInfo["magistralPressure"] = date[magistralPressure] == 1
-        self.devInfo["mainValve"] = date[mainValve] == 1
-        self.devInfo["filterValve"] = date[filterValve] == 1
-        self.devInfo["washFilValve"] = date[washFilValve] == 1
-        self.devInfo["tumperMoney"] = date[tumperMoney] == 1
-        self.devInfo["tumperDoor"] = date[tumperDoor] == 1
-        self.devInfo["serviceButton"] = date[serviceButton] == 1
-        self.devInfo["freeBattom"] = date[freeBattom] == 1
+        self.devInfo["consumerPump"] = date[consumerPump]
+        self.devInfo["mainPump"] = date[mainPump]
+        self.devInfo["magistralPressure"] = date[magistralPressure]
+        self.devInfo["mainValve"] = date[mainValve]
+        self.devInfo["filterValve"] = date[filterValve]
+        self.devInfo["washFilValve"] = date[washFilValve]
+        self.devInfo["tumperMoney"] = date[tumperMoney]
+        self.devInfo["tumperDoor"] = date[tumperDoor]
+        self.devInfo["serviceButton"] = date[serviceButton]
+        self.devInfo["freeBattom"] = date[freeBattom]
         self.devInfo["Voltage"] = date[Voltage]
-        self.devInfo["billAccept"] = date[billAccept] == 1
+        self.devInfo["billAccept"] = date[billAccept]
 
 
     def startUart(self):
@@ -234,3 +239,5 @@ class Vodomat(object):
         result = self.checkCode(self.read())
         self.unlock()
         return result
+
+dev = Vodomat("/dev/ttyAMA0", 38400)
