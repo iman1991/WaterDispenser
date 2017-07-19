@@ -60,7 +60,7 @@ def seans(info):
         # if int(param["idv"]) == info["idv"]:
         #     param["score"] = dev.getPutting()
         param["score"] = 100
-
+        param["status"] = dev.devInfo
         send(param, method="AnswerUP")
     elif method == "error":
         send(param, method="error")
