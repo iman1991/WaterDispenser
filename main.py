@@ -69,9 +69,14 @@ def seans(info):
 
 
 if __name__ == "__main__":
-    thread = threading.Thread(target=dev.startUart)
-    thread.start()
-    connect()
-    send(dev.devInfo, method="connect")
-    while True:
-        seans(dev.devInfo)
+    try:
+        connect()
+    except:
+        print("exit: not connect")
+        exit(0)
+    else:
+        thread = threading.Thread(target=dev.startUart)
+        thread.start()
+        send(dev.devInfo, method="connect")
+        while True:
+            seans(dev.devInfo)
