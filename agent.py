@@ -19,6 +19,7 @@ def getkey():
 
 
 def startAgent():
+    print("Start agent")
     keys = [item["key"] for item in getkey()]
     while True:
         clock = int(time.time())
@@ -41,7 +42,6 @@ def startAgent():
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.connect(("194.67.217.17", 10051))
         sock.send(raw)
-        print(raw)
         data = sock.recv(5)
         if data == zbx.ZABBIX_HEADER:
             data = sock.recv(8)
