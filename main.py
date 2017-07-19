@@ -16,7 +16,7 @@ dev = uartcontrol.Vodomat("/dev/ttyAMA0", 38400)
 def connect():
     try:
         sock.connect(("194.67.217.180", 8080))
-    except ConnectionRefusedError:
+    except:
         sock.connect(("194.67.217.180", 9090))
 
 def send(info, method="status"):
