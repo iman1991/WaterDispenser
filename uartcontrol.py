@@ -100,6 +100,7 @@ class Vodomat(object):
             if not self.locked:
                 time.sleep(0.2)
                 break
+        print("unlocked")
         self.locked = True
 
 
