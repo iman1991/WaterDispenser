@@ -21,8 +21,11 @@ def connect():
 def send(info, method="status"):
     d = {"method": method, "param": info}
     d = json.dumps(d)
-    if method != "status":
+    if method != "connect":
+        print("connect")
+    elif method != "status":
         print(d)
+
     sock.send(d.encode("utf-8"))
 
 
@@ -33,8 +36,8 @@ def seans(info):
     try:
         response = json.loads(data)
         method = response["method"]
-        if method != "got" and method != "connect":
-            print(response)
+        if method != "got":
+            print("response %s" % response)
         param = response["param"]
 
     except ValueError as e:
@@ -59,7 +62,6 @@ def seans(info):
         if int(param["idv"]) == info["idv"]:
             param["score"] = dev.getPutting()
         param["status"] = dev.devInfo
-        print(param)
         send(param, method="AnswerUP")
     elif method == "error":
         send(param, method="error")
