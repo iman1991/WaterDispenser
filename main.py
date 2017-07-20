@@ -63,6 +63,7 @@ def seans(info):
         param["status"] = dev.devInfo
         send(param, method="Answer")
     elif method == "error":
+        print("error %s" % param)
         send(param, method="error")
     else:
         send(info)
