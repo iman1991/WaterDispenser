@@ -35,8 +35,8 @@ def seans(info):
     try:
         response = json.loads(data)
         method = response["method"]
-        if method != "got":
-            print("response %s" % response)
+        # if method != "got":
+        #     print("response %s" % response)
         param = response["param"]
 
     except ValueError as e:
