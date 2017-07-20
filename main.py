@@ -55,7 +55,7 @@ def seans(info):
             if dev.devInfo["state"] == "WAIT":
                 dev.payment(param["score"])
         send(info)
-    elif method == "GetWaterStop":
+    elif method == "Stop":
         if int(param["idv"]) == info["idv"]:
             param["score"] = dev.getPutting()
         param["status"] = dev.devInfo
