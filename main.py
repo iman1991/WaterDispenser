@@ -52,7 +52,7 @@ def seans(info):
 
 
     time.sleep(1)
-    if method == "Activate":
+    if method == "Start":
         if int(param["idv"]) == info["idv"]:
             if dev.devInfo["state"] == "WAIT":
                 dev.payment(param["score"])
