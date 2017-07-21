@@ -96,16 +96,13 @@ class Vodomat(object):
 
 
     def read(self):
-        data = self.uart.readline()
-        print("read {}".format(data))
-        return data
+        return self.uart.readline()
 
 
     def write(self, data):
         try:
             if type(data) == str:
                 data = data.encode("ascii")
-            print("write {}".format(data))
             self.uart.write(data)
         except:
             pass
