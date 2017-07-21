@@ -80,8 +80,6 @@ if __name__ == "__main__":
         print("exit: not connect")
         exit(0)
     else:
-        thread = threading.Thread(target=dev.startUart)
-        thread.start()
         zabagent = threading.Thread(target=agent.startAgent)
         zabagent.start()
         send(dev.devInfo, method="connect")

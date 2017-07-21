@@ -95,19 +95,6 @@ class Vodomat(object):
         self.locked = False
 
 
-    def lock(self):
-        while True:
-            if not self.locked:
-                break
-            time.sleep(0.1)
-        print("unlocked")
-        self.locked = True
-
-
-    def unlock(self):
-        self.locked = False
-
-
     def read(self):
         data = self.uart.readline()
         # print("read {}".format(data))
@@ -115,7 +102,6 @@ class Vodomat(object):
 
 
     def write(self, data):
-        self.lock()
         try:
             if type(data) == str:
                 data = data.encode("ascii")
@@ -170,11 +156,11 @@ class Vodomat(object):
         self.devInfo["billAccept"] = date[billAccept]
 
 
-    def startUart(self):
-        print("start UART")
-        while True:
-            self.readinfo()
-            time.sleep(1)
+    # def startUart(self):
+    #     print("start UART")
+    #     while True:
+    #         self.readinfo()
+    #         time.sleep(1)
 
 
     def readinfo(self):
@@ -183,7 +169,6 @@ class Vodomat(object):
         if self.checkCode(self.read()):
             raw = self.read()
             self.raw2list(raw)
-        self.unlock()
 
 
     def setting(self, _waterPrice, containerMinVolume,_maxContainerVolume):
@@ -191,7 +176,6 @@ class Vodomat(object):
         self.write(msg)
         raw = self.read()
         self.checkCode(raw)
-        self.unlock()
 
 
     def getPutting(self):
@@ -199,7 +183,6 @@ class Vodomat(object):
         self.write(PUTTING)
         raw = self.read()
         code = self.checkCode(raw, types="int")
-        self.unlock()
         if code == True:
             return 0
         elif code > 0:
@@ -214,7 +197,6 @@ class Vodomat(object):
         msg = "%s%i\n" % (PAYMENT, score)
         self.write(msg.encode("ascii"))
         raw = self.read()
-        self.unlock()
         if self.checkCode(raw):
             return True
 
@@ -223,7 +205,6 @@ class Vodomat(object):
         msg = "%s%s,%i\n" % (PAYMENT, text, line)
         self.write(msg.encode("ascii"))
         raw = self.read()
-        self.unlock()
         if self.checkCode(raw):
             return True
 
@@ -231,14 +212,12 @@ class Vodomat(object):
     def enablePayment(self):
         self.write(ENABLE)
         result = self.checkCode(self.read())
-        self.unlock()
         return result
 
 
     def disablePayment(self):
         self.write(DISABLE)
         result = self.checkCode(self.read())
-        self.unlock()
         return result
 
 dev = Vodomat("/dev/ttyAMA0", 38400)
