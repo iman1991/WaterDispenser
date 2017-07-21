@@ -31,7 +31,9 @@ def seans(info):
     try:
         response = json.loads(data)
         method = response["method"]
-        if method != "got":
+        if method == "got":
+            print("got")
+        else:
             print("#!response # %s}" % response)
         param = response["param"]
 
@@ -56,11 +58,13 @@ def seans(info):
             if dev.devInfo["state"] == "WAIT":
                 dev.payment(param["score"])
         send(info)
+        print("payment")
     elif method == "Stop":
         if int(param["idv"]) == info["idv"]:
             param["score"] = dev.getPutting()
         param["status"] = dev.devInfo
         send(param, method="Answer")
+        print("get Putting")
     elif method == "error":
         print("error %s" % param)
         send(param, method="error")

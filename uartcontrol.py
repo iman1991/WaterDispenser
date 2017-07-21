@@ -92,7 +92,6 @@ class Vodomat(object):
 
     def __init__(self, port, baud):
         self.uart = serial.Serial(port, baud)
-        self.locked = False
 
 
     def read(self):
@@ -176,7 +175,7 @@ class Vodomat(object):
 
 
     def getPutting(self):
-        print("Command getPutting, the lock %s" % self.locked)
+        print("Command getPutting")
         self.write(PUTTING)
         raw = self.read()
         code = self.checkCode(raw, types="int")
@@ -190,7 +189,7 @@ class Vodomat(object):
 
 
     def payment(self,score):
-        print("Command playment, the lock %s" % self.locked)
+        print("Command playment")
         msg = "%s%i\n" % (PAYMENT, score)
         self.write(msg.encode("ascii"))
         raw = self.read()
