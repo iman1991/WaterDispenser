@@ -52,7 +52,10 @@ def seans(info):
 
 
     time.sleep(1)
-    if method == "Start":
+    if method == "got":
+        dev.readinfo()
+        send(info)
+    elif method == "Start":
         if int(param["idv"]) == info["idv"]:
             if dev.devInfo["state"] == "WAIT":
                 dev.payment(param["score"])
@@ -66,6 +69,7 @@ def seans(info):
         print("error %s" % param)
         send(param, method="error")
     else:
+        dev.readinfo()
         send(info)
 
 
