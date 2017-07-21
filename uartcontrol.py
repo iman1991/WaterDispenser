@@ -97,7 +97,7 @@ class Vodomat(object):
 
     def read(self):
         data = self.uart.readline()
-        # print("read {}".format(data))
+        print("read {}".format(data))
         return data
 
 
@@ -105,7 +105,7 @@ class Vodomat(object):
         try:
             if type(data) == str:
                 data = data.encode("ascii")
-            # print("write {}".format(data))
+            print("write {}".format(data))
             self.uart.write(data)
         except:
             pass
@@ -219,5 +219,6 @@ class Vodomat(object):
         self.write(DISABLE)
         result = self.checkCode(self.read())
         return result
+
 
 dev = Vodomat("/dev/ttyAMA0", 38400)
