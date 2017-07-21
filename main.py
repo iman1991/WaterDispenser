@@ -21,10 +21,6 @@ def connect():
 def send(info, method="status"):
     d = {"method": method, "param": info}
     d = json.dumps(d)
-    if method == "connect":
-        print("connect")
-    elif method != "status":
-        print(d)
     sock.send(d.encode("utf-8"))
 
 
@@ -36,12 +32,12 @@ def seans(info):
         response = json.loads(data)
         method = response["method"]
         if method != "got":
-            print("response %s" % response)
+            print("#!response # %s}" % response)
         param = response["param"]
 
     except ValueError as e:
         method = "error"
-        print(data)
+        print("error JSON {%s}" % data)
         param = {"types": "json", "msg": e.args}
     except KeyError as e:
         method = "error"
