@@ -218,6 +218,6 @@ class Vodomat(object):
 
 config = open("/opt/dl_config")
 
-nameserial = config.readline().encode("utf-8")
+nameserial = config.readline()
 
 dev = Vodomat(nameserial, 38400)
