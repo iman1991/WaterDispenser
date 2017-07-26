@@ -216,5 +216,8 @@ class Vodomat(object):
         result = self.checkCode(self.read())
         return result
 
+config = open("/opt/dl_config")
 
-dev = Vodomat("/dev/ttyAMA0", 38400)
+nameserial = config.readline()
+
+dev = Vodomat(nameserial, 38400)

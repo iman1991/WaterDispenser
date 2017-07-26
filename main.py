@@ -8,7 +8,7 @@ import time
 from uartcontrol import dev
 import agent
 
-sock = socket.socket()
+
 
 
 def connect():
@@ -36,7 +36,6 @@ def seans(info):
         else:
             print("#!response # %s}" % response)
         param = response["param"]
-
     except ValueError as e:
         method = "error"
         print("error JSON {%s}" % data)
@@ -72,7 +71,7 @@ def seans(info):
         dev.readinfo()
         send(info)
 
-
+sock = socket.socket()
 if __name__ == "__main__":
     try:
         connect()
