@@ -216,11 +216,11 @@ class Vodomat(object):
         result = self.checkCode(self.read())
         return result
 
-config = open("/opt/dl_config")
+file = open("/opt/dl_config")
 
-text = config.read()
-js = json.loads(text)
+text = file.read()
+config = json.loads(text)
 
-nameserial = js["port"]
+nameserial = config["port"]
 
 dev = Vodomat(nameserial, 38400)
