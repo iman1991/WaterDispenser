@@ -220,6 +220,7 @@ config = open("/opt/dl_config")
 
 text = config.read()
 js = json.loads(text)
+
 nameserial = js["port"]
 
 dev = Vodomat(nameserial, 38400)
