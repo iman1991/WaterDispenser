@@ -218,6 +218,8 @@ class Vodomat(object):
 
 config = open("/opt/dl_config")
 
-nameserial = config.readline()
+text = config.read()
+js = json.loads(text)
+nameserial = js["port"]
 
 dev = Vodomat(nameserial, 38400)
