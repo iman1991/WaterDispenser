@@ -1,16 +1,21 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import threading
 import socket
 import json
 import time
-import uartcontrol
+from uartcontrol import dev
+import agent
 
 
-sock = socket.socket()
-dev = uartcontrol.Vodomat("/dev/ttyAMA0", 38400)
 
 
 def connect():
-    sock.connect(("194.67.217.180", 9090))
+    try:
+        sock.connect(("194.67.217.180", 8080))
+    except:
+        sock.connect(("194.67.217.180", 9090))
 
 
 def send(info, method="status"):
@@ -22,40 +27,60 @@ def send(info, method="status"):
 def seans(info):
     data = sock.recv(2048).decode()
     if not data:
-        raise IOError
-    print("response %s" % data)
-    response = json.loads(data)
+        return
     try:
+        response = json.loads(data)
         method = response["method"]
+        if method == "got":
+            print("got")
+        else:
+            print("#!response # %s}" % response)
         param = response["param"]
-    except json.JSONDecodeError as e:
+    except ValueError as e:
         method = "error"
-        param = {"types": "json", "msg": e.msg}
+        print("error JSON {%s}" % data)
+        param = {"types": "json", "msg": e.args}
     except KeyError as e:
         method = "error"
         param = {"types": "notKey", "msg": e.args}
+    except Exception as e:
+        method = "error"
+        param = {"types": "error fotall", "msg": e.args}
+
+
     time.sleep(1)
-    if method == "GetWater":
+    if method == "got":
+        dev.readinfo()
+        send(info)
+    elif method == "Start":
         if int(param["idv"]) == info["idv"]:
             if dev.devInfo["state"] == "WAIT":
-                # AnswerPay
                 dev.payment(param["score"])
-            send(info)
-    elif method == "ToUpBalance":
+        send(info)
+        print("payment")
+    elif method == "Stop":
         if int(param["idv"]) == info["idv"]:
-            param["score"] += dev.getPutting()
-            send(param, method="AnswerUP")
+            param["score"] = dev.getPutting()
+        param["status"] = dev.devInfo
+        send(param, method="Answer")
+        print("get Putting")
     elif method == "error":
+        print("error %s" % param)
         send(param, method="error")
     else:
+        dev.readinfo()
         send(info)
 
-
+sock = socket.socket()
 if __name__ == "__main__":
-    thread = threading.Thread(target=dev.startUart)
-    thread.start()
-    connect()
-    send(dev.devInfo)
-    while True:
-        seans(dev.devInfo)
-
+    try:
+        connect()
+    except:
+        print("exit: not connect")
+        exit(0)
+    else:
+        zabagent = threading.Thread(target=agent.startAgent)
+        zabagent.start()
+        send(dev.devInfo, method="connect")
+        while True:
+            seans(dev.devInfo)

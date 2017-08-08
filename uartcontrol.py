@@ -52,6 +52,10 @@ ERROR_TEST = b'-4\n'
 
 stateList = ["NO_WATER", "WASH_FILTER", "WAIT", "SETTING", "JUST_PAID", "WORK", "SERVICE", "FREE", "NONE"]
 containerList = ["TOO_LOW", "NOT_FULL", "FULL"]
+# vodoList = ["input10Counter", "out10Counter", "milLitlose", "milLitWentOut", "milLitContIn", "waterPrice",
+#             "containerMinVolume", "maxContainerVolume", "totalPaid", "sessionPaid", "leftFromPaid", "state",
+#             "container", "currentContainerVolume", "consumerPump", "magistralPressure", "mainValve",
+#             "filterValve", "washFilValve", "tumperMoney", "tumperDoor", "serviceButton", "freeBattom", "Voltage"]
 
 
 class Vodomat(object):
@@ -173,11 +177,10 @@ class Vodomat(object):
         self.devInfo["billAccept"] = date[billAccept] == 1
 
 
-    def startUart(self, backfun):
+    def startUart(self):
         print("start UART")
         while True:
             self.readinfo()
-
             time.sleep(1)
 
 
