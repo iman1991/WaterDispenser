@@ -10,6 +10,7 @@ def openCofigFile():
     config_file.close()
     return raw
 
+
 try:
     text = openCofigFile()
 except:

@@ -5,7 +5,7 @@
     "port": 10051
   },
   "uart": {
-    "port": "/dev/AMA0",
+    "port": "/dev/ttyAMA0",
     "baud": 38400
   }
 }
