@@ -6,6 +6,6 @@
   },
   "uart": {
     "port": "/dev/AMA0",
-    "boud": 38400
+    "baud": 38400
   }
 }

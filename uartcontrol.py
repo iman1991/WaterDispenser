@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 import serial
 import json
-import time
-
+import config
 
 ID = -1
 input10Counter = 0
@@ -216,11 +215,9 @@ class Vodomat(object):
         result = self.checkCode(self.read())
         return result
 
-file = open("/opt/dl_config")
 
-text = file.read()
-config = json.loads(text)
 
-nameserial = config["port"]
+nameserial = config.uart["port"]
+
 
 dev = Vodomat(nameserial, 38400)
