@@ -1,0 +1,11 @@
+{
+  "zabbix": {
+    "hostname": "vodomat001",
+    "server": "127.0.0.1",
+    "port": 10051
+  },
+  "uart": {
+    "port": "/dev/AMA0",
+    "boud": 38400
+  }
+}

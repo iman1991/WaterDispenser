@@ -1,10 +1,11 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import serial
 import json
 import time
 
+
 ID = -1
-
-
 input10Counter = 0
 out10Counter = 1
 milLitlose = 2
@@ -52,16 +53,10 @@ ERROR_TEST = b'-4\n'
 
 stateList = ["NO_WATER", "WASH_FILTER", "WAIT", "SETTING", "JUST_PAID", "WORK", "SERVICE", "FREE", "NONE"]
 containerList = ["TOO_LOW", "NOT_FULL", "FULL"]
-# vodoList = ["input10Counter", "out10Counter", "milLitlose", "milLitWentOut", "milLitContIn", "waterPrice",
-#             "containerMinVolume", "maxContainerVolume", "totalPaid", "sessionPaid", "leftFromPaid", "state",
-#             "container", "currentContainerVolume", "consumerPump", "magistralPressure", "mainValve",
-#             "filterValve", "washFilValve", "tumperMoney", "tumperDoor", "serviceButton", "freeBattom", "Voltage"]
-
 
 class Vodomat(object):
     devInfo = {
         "idv": 1,
-        "state": "NO_WATER",
         "input10Counter ": 0,
         "out10Counter": 0,
         "milLitlose": 0,
@@ -69,86 +64,64 @@ class Vodomat(object):
         "milLitContIn": 0,
         "waterPrice": 0,
         "containerMinVolume": 0,
+        "maxContainerVolume": 0,
         "contVolume": 0,
         "totalPaid": 0,
         "sessionPaid": 0,
         "leftFromPaid": 0,
-        "state":"WAIT",
+        "State": "WAIT",
         "container": "TOO_LOW",
         "currentContainerVolume": 0,
-        "consumerPump": False,
-        "mainPump": False,
-        "magistralPressure": False,
-        "mainValve": False,
-        "filterValve": False,
-        "washFilValve": False,
-        "tumperMoney": False,
-        "tumperDoor": False,
-        "serviceButton": False,
-        "freeBattom": False,
+        "consumerPump": 0,
+        "mainPump": 0,
+        "magistralPressure": 0,
+        "mainValve": 0,
+        "filterValve": 0,
+        "washFilValve": 0,
+        "tumperMoney": 0,
+        "tumperDoor": 0,
+        "serviceButton": 0,
+        "freeButtom": 0,
         "Voltage": 0,
-        "billAccept": False
+        "billAccept": 0,
+        "containerGraph": 0,
+        "stateGraph": 0
+
     }
 
 
     def __init__(self, port, baud):
         self.uart = serial.Serial(port, baud)
-        self.locked = False
-
-
-    def lock(self):
-        while True:
-            if not self.locked:
-                break
-        self.locked = True
-
-
-    def unlock(self):
-        self.locked = False
 
 
     def read(self):
-        data = self.uart.readline()
-        self.unlock()
-        return data
+        return self.uart.readline()
 
 
     def write(self, data):
-        self.lock()
-        if type(data) == str:
-            data = data.encode("ascii")
-        return self.uart.write(data)
+        try:
+            if type(data) == str:
+                data = data.encode("ascii")
+            self.uart.write(data)
+        except:
+            pass
 
 
     def checkCode(self, code, types="code"):
+
         if code == NOT_ERROR:
             return True
-        elif code ==ERROR_ASCII:
-            raise IOError("Неверный ASCII Символ")
-        elif code ==ERROR_SHORT:
-            raise IOError("Слишкм короткая строка")
-        elif code ==ERROR_LONG:
-            raise IOError("Слишкм длинная строка")
-        elif code == ERROR_TEST:
-            return False
         else:
             if types == "code":
-                raise IOError(code)
+                return False
             elif types == "int":
                 return int(code)
 
 
-    def readinfo(self):
-
-        self.write(GET_INFO)
-        if self.checkCode(self.read()):
-            raw = self.read()
-            self.raw2list(raw)
-        self.unlock()
-
-
     def raw2list(self, raw):
         date = json.loads(raw.decode())
+        if type(date) != list:
+            return
         self.devInfo["input10Counter"] = date[input10Counter]
         self.devInfo["out10Counter"] = date[out10Counter]
         self.devInfo["milLitlose"] = date[milLitlose]
@@ -161,27 +134,37 @@ class Vodomat(object):
         self.devInfo["sessionPaid"] = date[sessionPaid]
         self.devInfo["leftFromPaid"] = date[leftFromPaid]
         self.devInfo["state"] = stateList[date[state]]
+        self.devInfo["stateGraph"] = date[state]
         self.devInfo["container"] = containerList[date[container]]
+        self.devInfo["containerGraph"] = date[container]
         self.devInfo["currentContainerVolume"] = date[currentContainerVolume]
-        self.devInfo["consumerPump"] = date[consumerPump] == 1
-        self.devInfo["mainPump"] = date[mainPump] == 1
-        self.devInfo["magistralPressure"] = date[magistralPressure] == 1
-        self.devInfo["mainValve"] = date[mainValve] == 1
-        self.devInfo["filterValve"] = date[filterValve] == 1
-        self.devInfo["washFilValve"] = date[washFilValve] == 1
-        self.devInfo["tumperMoney"] = date[tumperMoney] == 1
-        self.devInfo["tumperDoor"] = date[tumperDoor] == 1
-        self.devInfo["serviceButton"] = date[serviceButton] == 1
-        self.devInfo["freeBattom"] = date[freeBattom] == 1
+        self.devInfo["consumerPump"] = date[consumerPump]
+        self.devInfo["mainPump"] = date[mainPump]
+        self.devInfo["magistralPressure"] = date[magistralPressure]
+        self.devInfo["mainValve"] = date[mainValve]
+        self.devInfo["filterValve"] = date[filterValve]
+        self.devInfo["washFilValve"] = date[washFilValve]
+        self.devInfo["tumperMoney"] = date[tumperMoney]
+        self.devInfo["tumperDoor"] = date[tumperDoor]
+        self.devInfo["serviceButton"] = date[serviceButton]
+        self.devInfo["freeBattom"] = date[freeBattom]
         self.devInfo["Voltage"] = date[Voltage]
-        self.devInfo["billAccept"] = date[billAccept] == 1
+        self.devInfo["billAccept"] = date[billAccept]
 
 
-    def startUart(self):
-        print("start UART")
-        while True:
-            self.readinfo()
-            time.sleep(1)
+    # def startUart(self):
+    #     print("start UART")
+    #     while True:
+    #         self.readinfo()
+    #         time.sleep(1)
+
+
+    def readinfo(self):
+        # print("Command readinfo, the lock %s" % self.locked)
+        self.write(GET_INFO)
+        if self.checkCode(self.read()):
+            raw = self.read()
+            self.raw2list(raw)
 
 
     def setting(self, _waterPrice, containerMinVolume,_maxContainerVolume):
@@ -192,6 +175,7 @@ class Vodomat(object):
 
 
     def getPutting(self):
+        print("Command getPutting")
         self.write(PUTTING)
         raw = self.read()
         code = self.checkCode(raw, types="int")
@@ -200,11 +184,12 @@ class Vodomat(object):
         elif code > 0:
             return code
         else:
-            raise IOError(raw)
-        self.unlock
+            return False
+
 
 
     def payment(self,score):
+        print("Command playment")
         msg = "%s%i\n" % (PAYMENT, score)
         self.write(msg.encode("ascii"))
         raw = self.read()
@@ -216,16 +201,26 @@ class Vodomat(object):
         msg = "%s%s,%i\n" % (PAYMENT, text, line)
         self.write(msg.encode("ascii"))
         raw = self.read()
-        self.unlock()
         if self.checkCode(raw):
             return True
 
 
     def enablePayment(self):
         self.write(ENABLE)
-        return self.checkCode(self.read())
+        result = self.checkCode(self.read())
+        return result
 
 
     def disablePayment(self):
         self.write(DISABLE)
-        return self.checkCode(self.read())
+        result = self.checkCode(self.read())
+        return result
+
+file = open("/opt/dl_config")
+
+text = file.read()
+config = json.loads(text)
+
+nameserial = config["port"]
+
+dev = Vodomat(nameserial, 38400)

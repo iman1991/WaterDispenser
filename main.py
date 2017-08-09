@@ -7,6 +7,7 @@ import json
 import time
 from uartcontrol import dev
 import agent
+import config
 
 
 
