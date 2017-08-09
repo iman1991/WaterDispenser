@@ -216,8 +216,8 @@ class Vodomat(object):
         return result
 
 
-
 nameserial = config.uart["port"]
+baud = config.uart["baud"]
 
 
-dev = Vodomat(nameserial, 38400)
+dev = Vodomat(nameserial, baud)
