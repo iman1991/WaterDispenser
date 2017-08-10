@@ -20,6 +20,7 @@ def getkey():
 
 def startAgent():
     print("Start agent")
+    print(getkey())
     keys = [item["key"] for item in getkey()]
     while True:
         clock = int(time.time())
