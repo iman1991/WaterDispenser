@@ -80,8 +80,8 @@ if __name__ == "__main__":
         print("exit: not connect")
         exit(0)
     else:
-        zabagent = threading.Thread(target=agent.startAgent)
-        zabagent.start()
+        # zabagent = threading.Thread(target=agent.startAgent)
+        # zabagent.start()
         send(dev.devInfo, method="connect")
         while True:
             seans(dev.devInfo)
