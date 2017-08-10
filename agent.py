@@ -48,3 +48,6 @@ def startAgent():
             sock.recv(l)
             sock.close()
         time.sleep(30)
+
+if __name__ == "__main__":
+    startAgent()
