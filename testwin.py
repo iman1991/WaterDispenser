@@ -1,4 +1,6 @@
-import config
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import uartcontrol
 
 dev = uartcontrol.Vodomat("com4", 115200)
