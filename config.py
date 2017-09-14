@@ -6,6 +6,7 @@ if __name__ == "__main__":
 else:
     zabbix = {}
     uart = {}
+    mashine = {}
 
     config_file = open("/opt/dl_config.json")
 
@@ -19,3 +20,4 @@ else:
 
     uart.update(config["uart"])
 
+    mashine.update(config["mashine"])

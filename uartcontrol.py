@@ -89,8 +89,9 @@ class Vodomat(object):
     }
 
 
-    def __init__(self, port, baud):
+    def __init__(self, port, baud, id):
         self.uart = serial.Serial(port, baud, timeout=1)
+        self.devInfo["id"] = id
 
 
     def read(self):
