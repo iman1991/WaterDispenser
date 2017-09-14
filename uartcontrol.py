@@ -179,6 +179,7 @@ class Vodomat(object):
         print("Command getPutting")
         self.write(PUTTING)
         raw = self.read()
+        print("raw = {}".format(raw))
         code = self.checkCode(raw, types="int")
         if code == True:
             return 0
