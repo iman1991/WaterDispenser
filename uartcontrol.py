@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import serial
 import json
-import config
+# import config
 
 ID = -1
 input10Counter = 0
@@ -163,6 +163,7 @@ class Vodomat(object):
         self.write(GET_INFO)
         if self.checkCode(self.read()):
             raw = self.read()
+            print(raw)
             self.raw2list(raw)
 
 
@@ -215,9 +216,9 @@ class Vodomat(object):
         result = self.checkCode(self.read())
         return result
 
-
-nameserial = config.uart["port"]
-baud = config.uart["baud"]
-
-
-dev = Vodomat(nameserial, baud)
+#
+# nameserial = config.uart["port"]
+# baud = config.uart["baud"]
+#
+#
+# dev = Vodomat(nameserial, baud)

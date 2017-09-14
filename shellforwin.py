@@ -3,14 +3,14 @@
 
 import uartcontrol
 
-dev = uartcontrol.Vodomat("com4", 115200)
+dev = uartcontrol.Vodomat("com4", 9600)
 
 key  = input("test# ")
 while key != "q":
     if key == "pay":
         m = input("money: ")
-        m = int(m)*100
-        print(dev.payment(m))
+        ff = int(m)*100
+        print(dev.payment(ff))
     elif key == "get":
         dev.readinfo()
         print(dev.devInfo)
