@@ -5,8 +5,8 @@
     "port": 10051
   },
   "uart": {
-    "port": "/dev/ttyAMA0",
-    "baud": 38400
+    "port": "/dev/ttyS1",
+    "baud": 9600
   },
   "mashine":{
     "id":1
