@@ -62,6 +62,7 @@ def seans(info):
     elif method == "Stop":
         param["score"] = dev.getPutting()
         param["status"] = dev.devInfo
+        print(param["score"])
         send(param, method="Answer")
         print("get Putting")
     elif method == "error":
