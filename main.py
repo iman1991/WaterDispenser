@@ -14,7 +14,7 @@ from  config import server
 
 def connect():
     try:
-        sock.connect((server["ip"], server["port_main]"]))
+        sock.connect((server["ip"], server["port_main"]))
     except:
         sock.connect((server["ip"], server["port_reserv]"]))
 
