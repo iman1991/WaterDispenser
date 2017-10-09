@@ -152,13 +152,6 @@ class Vodomat(object):
         self.devInfo["billAccept"] = date[billAccept]
 
 
-    # def startUart(self):
-    #     print("start UART")
-    #     while True:
-    #         self.readinfo()
-    #         time.sleep(1)
-
-
     def readinfo(self):
         # print("Command readinfo, the lock %s" % self.locked)
         self.write(GET_INFO)
@@ -179,8 +172,8 @@ class Vodomat(object):
         print("Command getPutting")
         self.write(PUTTING)
         raw = self.read()
-        print("raw = {}".format(raw))
         code = self.checkCode(raw, types="int")
+        print("raw = {}".format(code))
         if code == True:
             return 0
         elif code > 0:
