@@ -11,4 +11,9 @@
   "mashine":{
     "id":1
   }
+  "server":{
+    "ip": "194.67.217.180",
+    "port_main": 8080,
+    "port_reserv": 9090
+  }
 }

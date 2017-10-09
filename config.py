@@ -7,6 +7,7 @@ else:
     zabbix = {}
     uart = {}
     mashine = {}
+    server = {}
 
     config_file = open("/opt/dl_config.json")
 
@@ -21,3 +22,5 @@ else:
     uart.update(config["uart"])
 
     mashine.update(config["mashine"])
+
+    server.update(config["server"])

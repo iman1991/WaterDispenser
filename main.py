@@ -7,16 +7,16 @@ import json
 import time
 from uartcontrol import dev
 import agent
-
+from  config import server
 
 
 
 
 def connect():
     try:
-        sock.connect(("194.67.217.180", 8080))
+        sock.connect((server["ip"], server["port_main]"]))
     except:
-        sock.connect(("194.67.217.180", 9090))
+        sock.connect((server["ip"], server["port_reserv]"]))
 
 
 def send(info, method="status"):
