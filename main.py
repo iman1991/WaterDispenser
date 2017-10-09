@@ -60,8 +60,7 @@ def seans(info):
         send(info)
         print("payment")
     elif method == "Stop":
-        if int(param["idv"]) == info["idv"]:
-            param["score"] = dev.getPutting()
+        param["score"] = dev.getPutting()
         param["status"] = dev.devInfo
         send(param, method="Answer")
         print("get Putting")
