@@ -108,14 +108,13 @@ class Vodomat(object):
 
 
     def checkCode(self, code, types="code"):
-
-        if code == NOT_ERROR:
-            return True
-        else:
-            if types == "code":
+        if types == "code":
+            if code == NOT_ERROR:
+                return True
+            else:
                 return False
-            elif types == "int":
-                return int(code)
+        elif types == "int":
+            return int(code)
 
 
     def raw2list(self, raw):
@@ -173,11 +172,8 @@ class Vodomat(object):
         self.write(PUTTING)
         raw = self.read()
         code = self.checkCode(raw, types="int")
-        print("raw = {}".format(code))
-        if code == True:
-            return 0
-        elif code > 0:
-            return code
+        if code >= 0:
+            return code // 100
         else:
             return False
 
