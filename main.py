@@ -74,14 +74,15 @@ def seans(info):
 
 sock = socket.socket()
 if __name__ == "__main__":
-    try:
-        connect()
-    except:
-        print("exit: not connect")
-        exit(0)
-    else:
-        zabagent = threading.Thread(target=agent.startAgent)
-        zabagent.start()
-        send(dev.devInfo, method="connect")
-        while True:
-            seans(dev.devInfo)
+    while True:
+        try:
+            connect()
+        except:
+            print("exit: not connect")
+            continue
+        else:
+            zabagent = threading.Thread(target=agent.startAgent)
+            zabagent.start()
+            send(dev.devInfo, method="connect")
+            while True:
+                seans(dev.devInfo)
