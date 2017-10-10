@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-ls
 
 import threading
@@ -7,7 +7,7 @@ import json
 import time
 from uartcontrol import dev
 import agent
-from  config import server
+from config import server
 
 
 
