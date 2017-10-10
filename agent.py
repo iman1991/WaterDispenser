@@ -17,6 +17,11 @@ def getkey():
     return response.data
 
 
+def addData(host, key, value, clock):
+    return {"host": host, "key": key, "value": value, "clock": clock}
+
+
+
 
 def startAgent():
     print("Start agent")
@@ -25,16 +30,15 @@ def startAgent():
         clock = int(time.time())
         request = {
             "request": "agent data",
-            "data":[],
+            "data": [],
             "clock": clock
         }
         for key in keys:
             try:
-                request["data"].append({"host": host,
-                                        "key": key,
-                                        "value": dev.devInfo[key],
-                                        "clock": clock
-                                        })
+                if key == "ping":
+                    request["data"].append(addData(host, key, clock, 1))
+                else:
+                    request["data"].append(addData(host, key, clock, dev.devInfo[key]))
             except:
                 pass
         raw = zbx.get_data_to_send(json.dumps(request))
