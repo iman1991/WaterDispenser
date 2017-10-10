@@ -16,6 +16,7 @@ else:
     config_file.close()
 
     config = json.loads(raw)
+    print(config)
 
     zabbix.update(config["zabbix"])
 
