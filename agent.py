@@ -12,8 +12,8 @@ server = "194.67.217.17"
 port = 10051
 
 def getkey():
-    itemList = ItemList(host='vodomat001')
-    response = itemList.get(server="194.67.217.17", port=10051)
+    itemList = ItemList(host=host)
+    response = itemList.get(server=server, port=port)
     return response.data
 
 
@@ -43,7 +43,7 @@ def startAgent():
                 pass
         raw = zbx.get_data_to_send(json.dumps(request))
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.connect(("194.67.217.17", 10051))
+        sock.connect((server, port))
         sock.send(raw)
         data = sock.recv(5)
         if data == zbx.ZABBIX_HEADER:
