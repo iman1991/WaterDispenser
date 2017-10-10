@@ -33,16 +33,17 @@ def startAgent():
             "data": [],
             "clock": clock
         }
+
         for key in keys:
             try:
                 if key == "ping":
                     request["data"].append(addData(hostname, key, clock, 1))
                 else:
                     request["data"].append(addData(hostname, key, clock, dev.devInfo[key]))
+
             except:
                 pass
-        print(dev.devInfo["idv"])
-        print(hostname)
+        print(keys)
         raw = zbx.get_data_to_send(json.dumps(request))
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.connect((server, port))
