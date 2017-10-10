@@ -7,12 +7,12 @@ import struct
 import time
 from config import zabbix
 
-host = zabbix["hostname"]
+hostname = zabbix["hostname"]
 server = zabbix["server"]
 port = zabbix["port"]
 
 def getkey():
-    itemList = ItemList(host=host)
+    itemList = ItemList(host=hostname)
     response = itemList.get(server=server, port=port)
     return response.data
 
@@ -36,12 +36,13 @@ def startAgent():
         for key in keys:
             try:
                 if key == "ping":
-                    request["data"].append(addData(host, key, clock, 1))
+                    request["data"].append(addData(hostname, key, clock, 1))
                 else:
-                    request["data"].append(addData(host, key, clock, dev.devInfo[key]))
+                    request["data"].append(addData(hostname, key, clock, dev.devInfo[key]))
             except:
                 pass
-        print(request)
+        print(dev.devInfo["idv"])
+        print(hostname)
         raw = zbx.get_data_to_send(json.dumps(request))
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.connect((server, port))
