@@ -5,11 +5,11 @@ import json
 import socket
 import struct
 import time
+from config import zabbix
 
-
-host = 'vodomat001'
-server = "194.67.217.17"
-port = 10051
+host = zabbix["hostname"]
+server = zabbix["server"]
+port = zabbix["port"]
 
 def getkey():
     itemList = ItemList(host=host)
