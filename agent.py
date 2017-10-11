@@ -17,7 +17,7 @@ def getkey():
     return response.data
 
 
-def addData(host, key, value, clock):
+def addData(host, key, clock, value):
     return {"host": host, "key": key, "value": value, "clock": clock}
 
 
@@ -25,8 +25,8 @@ def addData(host, key, value, clock):
 
 def startAgent():
     print("Start agent")
-    keys = [item["key"] for item in getkey()]
     while True:
+        keys = [item["key"] for item in getkey()]
         clock = int(time.time())
         request = {
             "request": "agent data",
@@ -43,7 +43,6 @@ def startAgent():
 
             except:
                 pass
-        print(keys)
         raw = zbx.get_data_to_send(json.dumps(request))
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.connect((server, port))

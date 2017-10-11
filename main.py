@@ -73,6 +73,7 @@ def seans(info):
         send(info)
 
 sock = socket.socket()
+
 if __name__ == "__main__":
     while True:
         try:
