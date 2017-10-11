@@ -39,6 +39,12 @@ def startAgent():
             try:
                 if key == "ping":
                     request["data"].append(addData(hostname, key, clock, 1))
+                elif key == "leftFromPaid":
+                    request["data"].append(addData(hostname, key, clock, dev.devInfo[key] // 10000))
+                elif key == "sessionPaid":
+                    request["data"].append(addData(hostname, key, clock, dev.devInfo[key] // 100))
+                elif key == "totalPaid":
+                    request["data"].append(addData(hostname, key, clock, dev.devInfo[key] // 100))
                 else:
                     request["data"].append(addData(hostname, key, clock, dev.devInfo[key]))
 
