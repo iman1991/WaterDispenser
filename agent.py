@@ -7,6 +7,7 @@ import struct
 import time
 from config import zabbix
 
+
 hostname = zabbix["hostname"]
 server = zabbix["server"]
 port = zabbix["port"]
@@ -17,7 +18,7 @@ def getkey():
     return response.data
 
 
-def addData(host, key, value, clock):
+def addData(host, key, clock, value):
     return {"host": host, "key": key, "value": value, "clock": clock}
 
 
