@@ -46,8 +46,8 @@ def report():
                     print("payment")
         elif command["cmd"] == 2:
             info = param
-            info["score"] = dev.devInfo["leftFromPaid"] // 100
-            dev.getPutting()
+            info["score"] = dev.getPutting()
+
             info["Status"] = dev.devInfo
             print(param["score"])
             print("get Putting")
