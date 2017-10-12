@@ -114,4 +114,4 @@ if __name__ == "__main__":
             zabagent.start()
 
             while True:
-                seans(dev.devInfo)
+                seans()
