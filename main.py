@@ -9,8 +9,6 @@ import agent
 from config import server
 
 
-
-
 def connect():
     try:
         sock.connect((server["ip"], server["port_main"]))
@@ -45,10 +43,9 @@ def seans(info):
         param = {"types": "notKey", "msg": e.args}
     except Exception as e:
         method = "error"
-        param = {"types": "error fotall", "msg": e.args}
-
-
+        param = {"types": "error fatall", "msg": e.args}
     time.sleep(1)
+
     if method == "got":
         dev.readinfo()
         send(info)
@@ -70,6 +67,7 @@ def seans(info):
     else:
         dev.readinfo()
         send(info)
+
 
 sock = socket.socket()
 if __name__ == "__main__":

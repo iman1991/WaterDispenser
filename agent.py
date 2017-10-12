@@ -12,6 +12,7 @@ hostname = zabbix["hostname"]
 server = zabbix["server"]
 port = zabbix["port"]
 
+
 def getkey():
     itemList = ItemList(host=hostname)
     response = itemList.get(server=server, port=port)
@@ -20,8 +21,6 @@ def getkey():
 
 def addData(host, key, clock, value):
     return {"host": host, "key": key, "value": value, "clock": clock}
-
-
 
 
 def startAgent():
@@ -40,7 +39,7 @@ def startAgent():
                 if key == "ping":
                     request["data"].append(addData(hostname, key, clock, 1))
                 elif key == "leftFromPaid":
-                    request["data"].append(addData(hostname, key, clock, dev.devInfo[key] // 10000))
+                    request["data"].append(addData(hostname, key, clock, dev.devInfo[key] // 100))
                 elif key == "sessionPaid":
                     request["data"].append(addData(hostname, key, clock, dev.devInfo[key] // 100))
                 elif key == "totalPaid":

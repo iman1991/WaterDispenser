@@ -131,7 +131,7 @@ class Vodomat(object):
         self.devInfo["maxContainerVolume"] = date[maxContainerVolume]
         self.devInfo["totalPaid"] = date[totalPaid]
         self.devInfo["sessionPaid"] = date[sessionPaid]
-        self.devInfo["leftFromPaid"] = date[leftFromPaid]
+        self.devInfo["leftFromPaid"] = date[leftFromPaid] // 100
         self.devInfo["state"] = stateList[date[state]]
         self.devInfo["stateGraph"] = date[state]
         self.devInfo["container"] = containerList[date[container]]
