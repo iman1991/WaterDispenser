@@ -9,6 +9,14 @@ import agent
 from config import server
 
 
+command = {"cmd": 0}
+
+def setCmd(cmd):
+    command.update({"cmd": cmd})
+
+
+request = {}
+
 def connect():
     try:
         sock.connect((server["ip"], server["port_main"]))
@@ -21,11 +29,48 @@ def send(info, method="status"):
     d = json.dumps(d)
     sock.send(d.encode("utf-8"))
 
+def report():
+    while True:
+        param = request["param"]
+        if command["cmd"] == 0:
+            dev.readinfo()
+            send(dev.devInfo)
+        elif command["cmd"] == 1:
+            if int(param["idv"]) == dev.devInfo["idv"]:
+                if dev.devInfo["state"] == "WAIT":
+                    dev.payment(param["score"])
+                    send(dev.devInfo)
+                    print("payment")
+
+        elif command["cmd"] == 2:
+            param["score"] = dev.getPutting()
+            param["Status"] = dev.devInfo
+            print(param["score"])
+            print("get Putting")
+            send(dev.devInfo)
+        setCmd(0)
+
+
+
+
+
 
 def seans(info):
+    get_request()
+    method = request["method"]
+    if method == "Start":
+        setCmd(1)
+    elif method == "Stop":
+        setCmd(2)
+
+def get_request():
     data = sock.recv(2048).decode()
     if not data:
+        method = "error"
+        param = {"types": "not data", "msg": "not data or data is null"}
+        request.update({"method": method, "param": param})
         return
+
     try:
         response = json.loads(data)
         method = response["method"]
@@ -44,29 +89,7 @@ def seans(info):
     except Exception as e:
         method = "error"
         param = {"types": "error fatall", "msg": e.args}
-    time.sleep(1)
-
-    if method == "got":
-        dev.readinfo()
-        send(info)
-    elif method == "Start":
-        if int(param["idv"]) == info["idv"]:
-            if dev.devInfo["state"] == "WAIT":
-                dev.payment(param["score"])
-        send(info)
-        print("payment")
-    elif method == "Stop":
-        param["score"] = dev.getPutting()
-        param["Status"] = dev.devInfo
-        print(param["score"])
-        send(param, method="Answer")
-        print("get Putting")
-    elif method == "error":
-        print("error %s" % param)
-        send(param, method="error")
-    else:
-        dev.readinfo()
-        send(info)
+    request.update({"method": method, "param": param})
 
 
 sock = socket.socket()
@@ -76,11 +99,14 @@ if __name__ == "__main__":
             connect()
         except:
             print("exit: not connect")
+            time.sleep(10)
             continue
         else:
             zabagent = threading.Thread(target=agent.startAgent)
             zabagent.start()
             send(dev.devInfo, method="connect")
+            zabagent = threading.Thread(target=report)
+            zabagent.start()
+
             while True:
                 seans(dev.devInfo)
-        time.sleep(30)
