@@ -50,7 +50,7 @@ def report():
             param["Status"] = dev.devInfo
             print(param["score"])
             print("get Putting")
-            send(dev.devInfo, "Anwser")
+            send(dev.devInfo, "Answer")
         setCmd(0)
         time.sleep(1)
 
