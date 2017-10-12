@@ -49,7 +49,6 @@ def startAgent():
 
             except:
                 pass
-        print(keys)
         raw = zbx.get_data_to_send(json.dumps(request))
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.connect((server, port))
