@@ -60,7 +60,7 @@ def report():
 
 
 
-def seans(info):
+def seans():
     get_request()
     method = request["method"]
     if method == "Start":
