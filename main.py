@@ -20,12 +20,15 @@ request = {}
 def connect():
     try:
         sock.connect((server["ip"], server["port_main"]))
+        print("connect to {}:{}".format(server["ip"], server["port_main"]))
     except:
         sock.connect((server["ip"], server["port_reserv]"]))
+        print("connect to {}:{}".format(server["ip"], server["port_reserv"]))
 
 
 def send(info, method="status"):
     d = {"method": method, "param": info}
+    print(d["method"])
     d = json.dumps(d)
     sock.send(d.encode("utf-8"))
 
@@ -49,6 +52,7 @@ def report():
             print("get Putting")
             send(dev.devInfo)
         setCmd(0)
+        time.sleep(1)
 
 
 
