@@ -31,7 +31,7 @@ def send(info, method="status"):
     print("method -> {}".format(d["method"]))
     d = json.dumps(d)
     print("row %s" % d)
-    sock.send(d.encode("utf-8"))
+    sock.send(d.encode())
 
 def report():
     while True:
