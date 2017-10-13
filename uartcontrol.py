@@ -157,7 +157,10 @@ class Vodomat(object):
         if self.checkCode(self.read()):
             raw = self.read()
             print(raw)
-            self.raw2list(raw)
+            try:
+                self.raw2list(raw)
+            except:
+                pass
 
 
     def setting(self, _waterPrice, containerMinVolume,_maxContainerVolume):
