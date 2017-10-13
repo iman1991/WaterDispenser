@@ -44,6 +44,8 @@ def report():
                     dev.payment(param["score"])
                     send(dev.devInfo)
                     print("payment")
+            setCmd(0)
+
         elif command["cmd"] == 2:
             info = param
             info["score"] = dev.getPutting()
@@ -52,7 +54,7 @@ def report():
             print(param["score"])
             print("get Putting")
             send(info, "Answer")
-        setCmd(0)
+            setCmd(0)
         time.sleep(1)
 
 
