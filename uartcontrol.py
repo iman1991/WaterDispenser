@@ -68,7 +68,7 @@ class Vodomat(object):
         "totalPaid": 0,
         "sessionPaid": 0,
         "leftFromPaid": 0,
-        "State": "WAIT",
+        "state": "WAIT",
         "container": "TOO_LOW",
         "currentContainerVolume": 0,
         "consumerPump": 0,

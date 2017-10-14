@@ -49,7 +49,6 @@ def report():
         elif command["cmd"] == 2:
             info = param
             info["score"] = dev.getPutting()
-
             info["Status"] = dev.devInfo
             print(param["score"])
             print("get Putting")
