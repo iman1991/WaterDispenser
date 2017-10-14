@@ -146,7 +146,7 @@ class Vodomat(object):
         self.devInfo["tumperMoney"] = date[tumperMoney]
         self.devInfo["tumperDoor"] = date[tumperDoor]
         self.devInfo["serviceButton"] = date[serviceButton]
-        self.devInfo["freeBattom"] = date[freeBattom]
+        self.devInfo["freeButton"] = date[freeBattom]
         self.devInfo["Voltage"] = date[Voltage]
         self.devInfo["billAccept"] = date[billAccept]
 
