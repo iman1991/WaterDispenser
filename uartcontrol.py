@@ -68,7 +68,7 @@ class Vodomat(object):
         "totalPaid": 0,
         "sessionPaid": 0,
         "leftFromPaid": 0,
-        "state": "WAIT",
+        "State": "WAIT",
         "container": "TOO_LOW",
         "currentContainerVolume": 0,
         "consumerPump": 0,
@@ -132,7 +132,7 @@ class Vodomat(object):
         self.devInfo["totalPaid"] = date[totalPaid]
         self.devInfo["sessionPaid"] = date[sessionPaid]
         self.devInfo["leftFromPaid"] = date[leftFromPaid] // 100
-        self.devInfo["state"] = stateList[date[state]]
+        self.devInfo["State"] = stateList[date[state]]
         self.devInfo["stateGraph"] = date[state]
         self.devInfo["container"] = containerList[date[container]]
         self.devInfo["containerGraph"] = date[container]
