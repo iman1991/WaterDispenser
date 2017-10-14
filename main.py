@@ -28,7 +28,7 @@ def connect():
 
 def send(info, method="status"):
     d = {"method": method, "param": info}
-    print("method -> {}".format(d["method"]))
+    print("param -> {}".format(d["param"]))
     d = json.dumps(d)
     sock.send(d.encode())
 
