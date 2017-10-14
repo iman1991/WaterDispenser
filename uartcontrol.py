@@ -28,7 +28,7 @@ washFilValve = 19
 tumperMoney = 20
 tumperDoor = 21
 serviceButton = 22
-freeBattom = 23
+freeButtom = 23
 Voltage = 24
 billAccept = 25
 
@@ -56,7 +56,7 @@ containerList = ["TOO_LOW", "NOT_FULL", "FULL"]
 class Vodomat(object):
     devInfo = {
         "idv": 1,
-        "input10Counter ": 0,
+        "input10Counter": 0,
         "out10Counter": 0,
         "milLitlose": 0,
         "milLitWentOut": 0,
@@ -146,7 +146,7 @@ class Vodomat(object):
         self.devInfo["tumperMoney"] = date[tumperMoney]
         self.devInfo["tumperDoor"] = date[tumperDoor]
         self.devInfo["serviceButton"] = date[serviceButton]
-        self.devInfo["freeButton"] = date[freeBattom]
+        self.devInfo["freeButton"] = date[freeButtom]
         self.devInfo["Voltage"] = date[Voltage]
         self.devInfo["billAccept"] = date[billAccept]
 
