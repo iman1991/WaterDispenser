@@ -80,7 +80,7 @@ class Vodomat(object):
         "tumperMoney": 0,
         "tumperDoor": 0,
         "serviceButton": 0,
-        "freeButtom": 0,
+        "freeButton": 0,
         "Voltage": 0,
         "billAccept": 0,
         "containerGraph": 0,
