@@ -30,10 +30,8 @@ def send(info, method="status"):
     d = {"method": method, "param": info}
     print("method -> {}".format(d["method"]))
     d = json.dumps(d)
-    try:
-        sock.send(d.encode())
-    except:
-        exit(0)
+    sock.send(d.encode())
+
 
 def report():
     while True:
