@@ -33,7 +33,7 @@ def send(info, method="status"):
     try:
         sock.send(d.encode())
     except:
-        exit(999)
+        exit(0)
 
 def report():
     while True:
