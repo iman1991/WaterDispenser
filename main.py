@@ -101,6 +101,8 @@ def get_request():
 sock = socket.socket()
 if __name__ == "__main__":
     while True:
+        zabagent = threading.Thread(target=agent.startAgent)
+        zabagent.start()
         try:
             connect()
         except:
@@ -108,12 +110,9 @@ if __name__ == "__main__":
             time.sleep(10)
             continue
         else:
-            zabagent = threading.Thread(target=agent.startAgent)
-            zabagent.start()
             send(dev.devInfo, method="connect")
             get_request()
             zabagent = threading.Thread(target=report)
             zabagent.start()
-
             while True:
                 seans()
