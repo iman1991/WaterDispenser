@@ -92,6 +92,7 @@ class Vodomat(object):
     def __init__(self, port, baud, id):
         self.uart = serial.Serial(port, baud, timeout=1)
         self.devInfo["idv"] = id
+        self.devInfo["connect_board"] = 0
 
 
     def read(self):
@@ -159,8 +160,9 @@ class Vodomat(object):
             print(raw)
             try:
                 self.raw2list(raw)
+                self.devInfo["connect_board"] = 1
             except:
-                pass
+                self.devInfo["connect_board"] = 0
 
 
     def setting(self, _waterPrice, containerMinVolume,_maxContainerVolume):
