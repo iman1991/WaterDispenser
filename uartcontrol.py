@@ -93,6 +93,7 @@ class Vodomat(object):
         self.uart = serial.Serial(port, baud, timeout=1)
         self.devInfo["idv"] = id
         self.devInfo["connect_board"] = 0
+        self.cmd = 0
 
 
     def read(self):
