@@ -133,7 +133,8 @@ class Vodomat(object):
         self.devInfo["totalPaid"] = date[totalPaid]
         self.devInfo["sessionPaid"] = date[sessionPaid]
         self.devInfo["leftFromPaid"] = date[leftFromPaid]
-        self.devInfo["State"] = stateList[date[state]]
+        self.devInfo["State"] = "WAIT"
+        # self.devInfo["State"] = stateList[date[state]]
         self.devInfo["stateGraph"] = date[state]
         self.devInfo["container"] = containerList[date[container]]
         self.devInfo["containerGraph"] = date[container]
