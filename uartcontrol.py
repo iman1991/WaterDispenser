@@ -94,6 +94,18 @@ class Vodomat(object):
         self.devInfo["idv"] = id
         self.devInfo["connect_board"] = 0
         self.cmd = 0
+        self.score = 0
+        self.putting = 0
+
+    def run(self):
+        if self.cmd == 0:
+            self.readinfo()
+        elif self.cmd == 1:
+            dev.payment(self.score)
+            self.cmd = 0
+        elif self.cmd == 2:
+            self.putting = self.getPutting()
+            self.cmd = 0
 
 
     def read(self):
@@ -133,7 +145,7 @@ class Vodomat(object):
         self.devInfo["maxContainerVolume"] = date[maxContainerVolume]
         self.devInfo["totalPaid"] = date[totalPaid]
         self.devInfo["sessionPaid"] = date[sessionPaid]
-        self.devInfo["leftFromPaid"] = date[leftFromPaid] // 100
+        self.devInfo["leftFromPaid"] = date[leftFromPaid]
         self.devInfo["State"] = stateList[date[state]]
         self.devInfo["stateGraph"] = date[state]
         self.devInfo["container"] = containerList[date[container]]
@@ -179,7 +191,7 @@ class Vodomat(object):
         raw = self.read()
         code = self.checkCode(raw, types="int")
         if code >= 0:
-            return code // 10000
+            return code // 100
         else:
             return False
 
@@ -195,7 +207,7 @@ class Vodomat(object):
 
 
     def textOUT(self, text, line):
-        msg = "%s%s,%i\n" % (PAYMENT, text, line)
+        msg = "%s%s,%i\n" % (TEXTOUT, text, line)
         self.write(msg.encode("ascii"))
         raw = self.read()
         if self.checkCode(raw):
