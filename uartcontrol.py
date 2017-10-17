@@ -127,7 +127,7 @@ class Vodomat(object):
         self.devInfo["milLitlose"] = date[milLitlose]
         self.devInfo["milLitWentOut"] = date[milLitWentOut]
         self.devInfo["milLitContIn"] = date[milLitContIn]
-        self.devInfo["waterPrice"] = date[waterPrice] // 100
+        self.devInfo["waterPrice"] = date[waterPrice]
         self.devInfo["containerMinVolume"] = date[containerMinVolume]
         self.devInfo["maxContainerVolume"] = date[maxContainerVolume]
         self.devInfo["totalPaid"] = date[totalPaid]
@@ -178,7 +178,7 @@ class Vodomat(object):
         raw = self.read()
         code = self.checkCode(raw, types="int")
         if code >= 0:
-            return code // 100
+            return code
         else:
             return False
 
