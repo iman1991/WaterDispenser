@@ -104,9 +104,9 @@ def get_request():
 
 sock = socket.socket()
 if __name__ == "__main__":
+    zabagent = threading.Thread(target=agent.startAgent)
+    zabagent.start()
     while True:
-        zabagent = threading.Thread(target=agent.startAgent)
-        zabagent.start()
         try:
             connect()
         except:
