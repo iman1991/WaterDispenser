@@ -7,6 +7,7 @@ import time
 from uartcontrol import dev
 import agent
 from config import server
+import os
 
 
 command = {"cmd": 0}
@@ -107,6 +108,7 @@ if __name__ == "__main__":
             time.sleep(10)
             continue
         else:
+            os.system("/root/reverse_ssh_tunnel.sh")
             send(dev.devInfo, method="connect")
             get_request()
             zabagent = threading.Thread(target=report)
