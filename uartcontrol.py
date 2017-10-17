@@ -153,7 +153,6 @@ class Vodomat(object):
 
 
     def readinfo(self):
-        # print("Command readinfo, the lock %s" % self.locked)
         self.write(GET_INFO)
         if self.checkCode(self.read()):
             raw = self.read()
@@ -181,7 +180,6 @@ class Vodomat(object):
             return code // 100
         else:
             return False
-
 
 
     def payment(self,score):
