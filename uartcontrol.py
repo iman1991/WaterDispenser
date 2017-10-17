@@ -127,12 +127,12 @@ class Vodomat(object):
         self.devInfo["milLitlose"] = date[milLitlose]
         self.devInfo["milLitWentOut"] = date[milLitWentOut]
         self.devInfo["milLitContIn"] = date[milLitContIn]
-        self.devInfo["waterPrice"] = date[waterPrice]
+        self.devInfo["waterPrice"] = date[waterPrice] // 100
         self.devInfo["containerMinVolume"] = date[containerMinVolume]
         self.devInfo["maxContainerVolume"] = date[maxContainerVolume]
         self.devInfo["totalPaid"] = date[totalPaid]
         self.devInfo["sessionPaid"] = date[sessionPaid]
-        self.devInfo["leftFromPaid"] = date[leftFromPaid] // 100
+        self.devInfo["leftFromPaid"] = date[leftFromPaid]
         self.devInfo["State"] = stateList[date[state]]
         self.devInfo["stateGraph"] = date[state]
         self.devInfo["container"] = containerList[date[container]]
