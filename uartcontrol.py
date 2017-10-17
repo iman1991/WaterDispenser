@@ -178,7 +178,7 @@ class Vodomat(object):
         raw = self.read()
         code = self.checkCode(raw, types="int")
         if code >= 0:
-            return code // 10000
+            return code // 100
         else:
             return False
 
