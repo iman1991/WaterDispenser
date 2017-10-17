@@ -108,7 +108,7 @@ if __name__ == "__main__":
             time.sleep(10)
             continue
         else:
-            os.system("/root/reverse_ssh_tunnel.sh")
+            os.system("/root/reverse_ssh_tunnel.sh>/dev/null&")
             send(dev.devInfo, method="connect")
             get_request()
             zabagent = threading.Thread(target=report)
