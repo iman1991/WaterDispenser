@@ -59,7 +59,7 @@ def startAgent():
             l = struct.unpack("i", data[:4])[0]
             sock.recv(l)
             sock.close()
-        time.sleep(30)
+        time.sleep(10)
 
 if __name__ == "__main__":
     startAgent()
