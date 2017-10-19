@@ -26,7 +26,7 @@ def addData(host, key, clock, value):
 
 def startAgent():
     print("Start agent")
-    keys = [item["key"] for item in getkey()]
+    # keys = [item["key"] for item in getkey()]
     while True:
         clock = int(time.time())
         request = {
@@ -35,7 +35,7 @@ def startAgent():
             "clock": clock
         }
 
-        for key in keys:
+        for key in dev.devInfo:
             try:
                 if key == "ping":
                     request["data"].append(addData(hostname, key, clock, 1))
