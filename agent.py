@@ -15,8 +15,13 @@ port = zabbix["port"]
 
 def getkey():
     itemList = ItemList(host=hostname)
-    response = itemList.get(server=server, port=port)
-    return response.data
+    try:
+        response = itemList.get(server=server, port=port)
+        print(response.data)
+        return response.data
+    except Exception as e:
+        print(e)
+
 
 
 def addData(host, key, clock, value):
