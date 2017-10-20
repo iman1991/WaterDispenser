@@ -53,6 +53,7 @@ def report():
             info = param
             print(param)
             info["score"] = dev.getPutting()
+            dev.payment(param["reserve"])
             info["Status"] = dev.devInfo
             print(param["score"])
             print("get Putting")
