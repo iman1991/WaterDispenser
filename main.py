@@ -43,7 +43,7 @@ def report():
         elif command["cmd"] == 1:
             if int(param["idv"]) == dev.devInfo["idv"]:
                 if dev.devInfo["State"] == "WAIT":
-                    dev.getPutting()
+                    print(dev.getPutting())
                     dev.payment(param["score"])
                     send(dev.devInfo)
                     print("payment")
