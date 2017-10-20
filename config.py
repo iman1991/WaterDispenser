@@ -1,13 +1,15 @@
 import json
 import os
 
+zabbix = {}
+uart = {}
+mashine = {}
+server = {}
+
+
 if __name__ == "__main__":
     os.system("cp dl_config.json /opt/dl_config.json")
 else:
-    zabbix = {}
-    uart = {}
-    mashine = {}
-    server = {}
 
     config_file = open("/opt/dl_config.json")
 
