@@ -43,8 +43,8 @@ def report():
         elif command["cmd"] == 1:
             if int(param["idv"]) == dev.devInfo["idv"]:
                 if dev.devInfo["State"] == "WAIT":
-                    print(dev.getPutting())
-                    dev.payment(param["score"])
+                    dev.remainder = dev.getPutting()
+                    dev.payment(param["score"] * 100)
                     send(dev.devInfo)
                     print("payment")
             setCmd(0)
@@ -52,11 +52,9 @@ def report():
         elif command["cmd"] == 2:
             info = param
             print(param)
-            info["score"] = dev.getPutting()
-            dev.payment(param["reserve"])
+            info["score"] = dev.getPutting() // 100
+            dev.payment(dev.remainder)
             info["Status"] = dev.devInfo
-            print(param["score"])
-            print("get Putting")
             send(info, "Answer")
             setCmd(0)
         time.sleep(1)

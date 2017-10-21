@@ -93,6 +93,7 @@ class Vodomat(object):
         self.uart = serial.Serial(port, baud, timeout=1)
         self.devInfo["idv"] = id
         self.devInfo["connect_board"] = 0
+        self.remainder = 0
 
 
     def read(self):
@@ -178,14 +179,14 @@ class Vodomat(object):
         raw = self.read()
         code = self.checkCode(raw, types="int")
         if code >= 0:
-            return code // 100
+            return code
         else:
             return False
 
 
     def payment(self,score):
         print("Command playment")
-        msg = "%s%i\n" % (PAYMENT, score * 100)
+        msg = "%s%i\n" % (PAYMENT)
         self.write(msg.encode("ascii"))
         raw = self.read()
         if self.checkCode(raw):
