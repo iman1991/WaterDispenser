@@ -186,7 +186,7 @@ class Vodomat(object):
 
     def payment(self,score):
         print("Command playment")
-        msg = "%s%i\n" % (PAYMENT)
+        msg = "%s%i\n" % (PAYMENT, score)
         self.write(msg.encode("ascii"))
         raw = self.read()
         if self.checkCode(raw):
