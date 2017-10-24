@@ -120,7 +120,11 @@ class Vodomat(object):
 
 
     def raw2list(self, raw):
-        date = json.loads(raw.decode())
+        try:
+            date = json.loads(raw.decode())
+        except Exception as e:
+            print(e)
+
         if type(date) != list:
             return
         self.devInfo["input10Counter"] = date[input10Counter]
