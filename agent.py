@@ -50,16 +50,19 @@ def startAgent():
 
             except:
                 pass
-        raw = zbx.get_data_to_send(json.dumps(request))
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.connect((server, port))
-        sock.send(raw)
-        data = sock.recv(5)
-        if data == zbx.ZABBIX_HEADER:
-            data = sock.recv(8)
-            l = struct.unpack("i", data[:4])[0]
-            sock.recv(l)
-            sock.close()
+        try:
+            raw = zbx.get_data_to_send(json.dumps(request))
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.connect((server, port))
+            sock.send(raw)
+            data = sock.recv(5)
+            if data == zbx.ZABBIX_HEADER:
+                data = sock.recv(8)
+                l = struct.unpack("i", data[:4])[0]
+                sock.recv(l)
+                sock.close()
+        except Exception as e:
+            print(e)
         time.sleep(10)
 
 if __name__ == "__main__":
