@@ -2,7 +2,9 @@
 # -*- coding: utf-8 -*-
 import serial
 import json
+
 import config
+import gpio
 
 ID = -1
 input10Counter = 0
@@ -31,6 +33,9 @@ serviceButton = 22
 freeButtom = 23
 Voltage = 24
 billAccept = 25
+
+TRY_REBOOT = 3
+TO_RUNING = 20
 
 
 GET_INFO = b'g\n'
@@ -94,10 +99,16 @@ class Vodomat(object):
         self.devInfo["idv"] = id
         self.devInfo["connect_board"] = 0
         self.remainder = 0
+        self.tryReboot = 0
+        self.toRunning = 0
 
 
     def read(self):
-        return self.uart.readline()
+        data = self.uart.readline()
+        if len(data) < 2:
+
+
+        return data
 
 
     def write(self, data):
@@ -215,6 +226,15 @@ class Vodomat(object):
         self.write(DISABLE)
         result = self.checkCode(self.read())
         return result
+
+    def reboot(self):
+        if self.toRunning == 0:
+            gpio.reboot()
+        elif self.toRunning < TO_RUNING:
+            self.toRunning += 1
+        else:
+            self.toRunning = 0
+
 
 
 nameserial = config.uart["port"]
