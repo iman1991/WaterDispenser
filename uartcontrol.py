@@ -106,8 +106,7 @@ class Vodomat(object):
     def read(self):
         data = self.uart.readline()
         if len(data) < 2:
-
-
+            self.reboot()
         return data
 
 
