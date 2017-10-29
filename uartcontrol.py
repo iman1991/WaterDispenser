@@ -95,6 +95,7 @@ class Vodomat(object):
 
 
     def __init__(self, port, baud, id):
+        gpio.init()
         self.uart = serial.Serial(port, baud, timeout=1)
         self.devInfo["idv"] = id
         self.devInfo["connect_board"] = 0
