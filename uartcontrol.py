@@ -228,6 +228,7 @@ class Vodomat(object):
         return result
 
     def reboot(self):
+        print("to reboot %i" % self.toRunning )
         if self.toRunning == 0:
             gpio.reboot()
         elif self.toRunning < TO_RUNING:
