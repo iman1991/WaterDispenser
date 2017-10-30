@@ -5,6 +5,7 @@ import json
 
 import config
 import gpio
+from reportBot import report
 
 ID = -1
 input10Counter = 0
@@ -230,7 +231,9 @@ class Vodomat(object):
     def reboot(self):
         print("to reboot %i" % self.toRunning )
         if self.toRunning == 0:
+            report("reboot board mashine %s" % config.bot.get("name"))
             gpio.reboot()
+            self.toRunning += 1
         elif self.toRunning < TO_RUNING:
             self.toRunning += 1
         else:

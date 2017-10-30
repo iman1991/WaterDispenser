@@ -9,11 +9,17 @@
     "baud": 9600
   },
   "mashine":{
-    "id":1
+    "id":1,
+    "name": "3.Луч"
   },
   "server":{
     "ip": "194.67.217.180",
     "port_main": 8080,
     "port_reserv": 9090
+  },
+  "bot":{
+    "token": "telegram bot token",
+    "agents": [27390261]
   }
+
 }
