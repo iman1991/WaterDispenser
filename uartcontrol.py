@@ -3,7 +3,7 @@
 import serial
 import json
 
-import config
+from config import mashine, uart
 import gpio
 from reportBot import report
 
@@ -97,6 +97,7 @@ class Vodomat(object):
 
     def __init__(self, port, baud, id):
         gpio.init()
+        report("starting uart in mashine %s" % mashine.get("name"))
         self.uart = serial.Serial(port, baud, timeout=1)
         self.devInfo["idv"] = id
         self.devInfo["connect_board"] = 0
@@ -231,7 +232,7 @@ class Vodomat(object):
     def reboot(self):
         print("to reboot %i" % self.toRunning )
         if self.toRunning == 0:
-            report("reboot board mashine %s" % config.bot.get("name"))
+            report("reboot board in mashine %s" % mashine.get("name"))
             gpio.reboot()
             self.toRunning += 1
         elif self.toRunning < TO_RUNING:
@@ -241,7 +242,7 @@ class Vodomat(object):
 
 
 
-nameserial = config.uart["port"]
-baud = config.uart["baud"]
-mashineId = config.mashine["id"]
+nameserial = uart["port"]
+baud = uart["baud"]
+mashineId = mashine["id"]
 dev = Vodomat(nameserial, baud, mashineId)

@@ -6,8 +6,9 @@ import json
 import time
 from uartcontrol import dev
 import agent
-from config import server
+from config import server, mashine
 import os
+from reportBot import report
 
 
 command = {"cmd": 0}
@@ -110,6 +111,7 @@ if __name__ == "__main__":
             continue
         else:
             os.system("/root/reverse_ssh_tunnel.sh>/dev/null&")
+            report("connect machine %s to server %s:%s" %( mashine["name"], server["ip"], server["port_reserv"]))
             send(dev.devInfo, method="connect")
             get_request()
             zabagent = threading.Thread(target=report)
