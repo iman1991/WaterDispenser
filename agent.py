@@ -27,7 +27,7 @@ def addData(host, key, clock, value):
 
 def startAgent():
     print("Start agent")
-    report("starting uart in hostname %s" % zabbix.get("hostname"))
+    report("starting agent in hostname %s" % zabbix.get("hostname"))
     # keys = [item["key"] for item in getkey()]
     while True:
         clock = int(time.time())
